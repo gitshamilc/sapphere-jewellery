@@ -1,0 +1,800 @@
+<!-- Deploy version: 2026-06-02-22:00 -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SAPPHERE - Premium, intimate e-commerce jewelry store showcasing hand-crafted royal sapphire, gold, and bead necklaces, earrings, and pendants.">
+    <title>SAPPHERE — Premium Luxury Jewelry Store</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css?v=6">
+    
+    <!-- CDNs: Three.js, GSAP, ScrollTrigger, Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+    <!-- Safety Fallback: Force-hide loader after 9s if JS crashes -->
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var loader = document.getElementById('loader');
+                if (loader && loader.style.display !== 'none') {
+                    loader.style.transition = 'opacity 0.5s ease';
+                    loader.style.opacity = '0';
+                    setTimeout(function() { loader.style.display = 'none'; document.body.style.overflow = ''; }, 500);
+                }
+            }, 9000);
+        });
+    </script>
+</head>
+<body>
+
+    <!-- Cinematic Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-bg"></div>
+        <div class="loader-content">
+            <span class="loader-tagline">JEWELRY STORE</span>
+            <h1 class="loader-title">SAPPHERE</h1>
+            <div class="loader-bar-container">
+                <div class="loader-bar" id="loader-bar"></div>
+            </div>
+            <span class="loader-percentage" id="loader-percentage">0%</span>
+        </div>
+    </div>
+
+    <!-- Background WebGL Canvas (Optimized for Mobile Performance) -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Interactive Mouse/Touch Light Glow Background -->
+    <div class="ambient-glow" id="ambient-glow"></div>
+
+    <!-- Main Content Wrapper -->
+    <div class="scroll-container">
+
+        <!-- Premium Navigation Header -->
+        <header class="luxury-header">
+            <a href="#" class="brand-logo">SAPPHERE</a>
+            
+            <nav class="nav-links">
+                <a href="#jewels" class="nav-link">JEWELS</a>
+                <a href="#store" class="nav-link">EXPLORE</a>
+                <a href="#heritage" class="nav-link">HERITAGE</a>
+                <a href="#trust" class="nav-link">TRUST</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="admin/login.html" class="nav-link admin-desktop-link" style="margin-right: 1.5rem; font-size: 0.75rem; letter-spacing: 0.15em; font-weight: 600; color: var(--gold);">ADMIN</a>
+                <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%2C%20I%20would%20like%20to%20inquire%20about%20your%20custom%20jewelry%20design%20services." target="_blank" class="btn-menu magnetic-btn" data-strength="15">
+                    <span>WHATSAPP CHAT</span>
+                </a>
+            </div>
+            
+            <!-- Mobile Toggle Button -->
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu" onclick="toggleMobileMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </header>
+
+        <!-- Mobile Navigation Overlay Menu -->
+        <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+            <div class="mobile-nav-content">
+                <a href="#jewels" class="mobile-nav-link" onclick="toggleMobileMenu()">💎 JEWELS</a>
+                <a href="#store" class="mobile-nav-link" onclick="toggleMobileMenu()">EXPLORE</a>
+                <a href="#heritage" class="mobile-nav-link" onclick="toggleMobileMenu()">HERITAGE</a>
+                <a href="#trust" class="mobile-nav-link" onclick="toggleMobileMenu()">TRUST</a>
+                <a href="admin/login.html" class="mobile-nav-link admin-mobile-link" onclick="toggleMobileMenu()">ADMIN CONTROL</a>
+                <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%2C%20I%20would%20like%20to%20inquire%20about%20your%20custom%20jewelry%20design%20services." target="_blank" class="btn-primary mobile-chat-btn">
+                    <span>WHATSAPP CHAT</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- SECTION 1: HERO — Split Premium Layout -->
+        <section class="hero-section" id="hero">
+            <div class="section-overlay"></div>
+            <div class="container hero-container">
+                <div class="hero-grid">
+                    <!-- Left: Brand Text content -->
+                    <div class="hero-text-col">
+                        <h2 class="hero-subtitle cinematic-fade">TIMELESS FEMININE ELEGANCE</h2>
+                        <h1 class="hero-headline cinematic-fade">Sapphere<br><em>Jewellery</em><br>Store</h1>
+                        <p class="hero-description cinematic-fade">
+                          Sapphire Jewellery Store is a premium online jewellery destination offering elegant and royal-inspired fashion jewellery designed for every occasion.
+                        </p>
+                        <div class="hero-actions cinematic-fade">
+                            <a href="#store" class="btn-primary magnetic-btn" data-strength="12">
+                                <span>SHOP THE BOUTIQUE</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Premium Floating Image Card -->
+                    <div class="hero-image-col cinematic-fade">
+                        <div class="hero-image-frame">
+                            <img src="assets/hero_jewelry_1780120010207.png" alt="SAPPHERE Royal Jewelry" class="hero-jewel-img">
+                            <div class="hero-img-sweep"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="scroll-down cinematic-fade">
+                    <span class="scroll-text">EXPLORE PRODUCTS</span>
+                    <div class="scroll-icon">
+                        <div class="scroll-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: THE E-COMMERCE STORE BOUTIQUE -->
+        <section class="store-section" id="store">
+            <div class="container" id="jewels">
+                <span class="section-tag text-center">THE SAPPHERE ARCHIVES</span>
+                <h2 class="section-title text-center">Featured Masterpieces</h2>
+                <a href="#jewels" class="btn-primary magnetic-btn" style="margin-top:1rem; display:inline-block;">MORE</a>
+                
+                <!-- Product Grid (Highly responsive, optimised primarily for mobile touchpoints) -->
+                <div class="product-grid">
+                    
+                    <!-- Product 1: Flora Bead Choker -->
+                    <div class="product-card glass-card cinematic-card" data-product="flora-bead">
+                        <div class="product-visual">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.49 PM.jpeg" alt="Flora Bead Choker" class="product-img">
+                            <span class="product-badge">BESTSELLER</span>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-rating">4.9 ★ (84 reviews)</div>
+                            <h3 class="product-title">Flora Bead Choker</h3>
+                            <p class="product-excerpt">A playful, graceful gold chain adorned with hand-strung multi-colored floral bead charms.</p>
+                            <div class="product-footer">
+                                <span class="product-price">₹1,899</span>
+                                <div class="product-actions">
+                                    <button class="btn-quick-view magnetic-btn" data-strength="6" onclick="app.openQuickView('flora-bead')">Specs</button>
+                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Flora%20Bead%20Choker%20(%E2%82%B91%2C899).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
+                                        <span>BUY NOW</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2: Atelier Earring Suite -->
+                    <div class="product-card glass-card cinematic-card" data-product="earring-suite">
+                        <div class="product-visual">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.16 PM.jpeg" alt="Atelier Earring Suite" class="product-img">
+                            <span class="product-badge">LIMITED</span>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-rating">4.8 ★ (46 reviews)</div>
+                            <h3 class="product-title">Atelier Earring Suite</h3>
+                            <p class="product-excerpt">Curated suite of three distinct gold earrings: floral studs, double heart hoops, and bamboo hoops.</p>
+                            <div class="product-footer">
+                                <span class="product-price">₹2,499</span>
+                                <div class="product-actions">
+                                    <button class="btn-quick-view magnetic-btn" data-strength="6" onclick="app.openQuickView('earring-suite')">Specs</button>
+                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Atelier%20Earring%20Suite%20(%E2%82%B92%2C499).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
+                                        <span>BUY NOW</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3: Aura Heart Pendant -->
+                    <div class="product-card glass-card cinematic-card" data-product="aura-heart">
+                        <div class="product-visual">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (1).jpeg" alt="Aura Heart Pendant" class="product-img">
+                            <span class="product-badge">ROYAL CHOICE</span>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-rating">5.0 ★ (112 reviews)</div>
+                            <h3 class="product-title">Aura Heart Pendant</h3>
+                            <p class="product-excerpt">A classic minimal gold chain holding a polished solid gold heart pendant on a premium display stand.</p>
+                            <div class="product-footer">
+                                <span class="product-price">₹1,599</span>
+                                <div class="product-actions">
+                                    <button class="btn-quick-view magnetic-btn" data-strength="6" onclick="app.openQuickView('aura-heart')">Specs</button>
+                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Aura%20Heart%20Pendant%20(%E2%82%B91%2C599).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
+                                        <span>BUY NOW</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4: Silken Heart Choker -->
+                    <div class="product-card glass-card cinematic-card" data-product="silken-heart">
+                        <div class="product-visual">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (3).jpeg" alt="Silken Heart Choker" class="product-img">
+                            <span class="product-badge">POPULAR</span>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-rating">4.9 ★ (73 reviews)</div>
+                            <h3 class="product-title">Silken Heart Choker</h3>
+                            <p class="product-excerpt">A delicate hollow gold heart pendant layered elegantly over natural liquid-silk champagne drapery.</p>
+                            <div class="product-footer">
+                                <span class="product-price">₹1,699</span>
+                                <div class="product-actions">
+                                    <button class="btn-quick-view magnetic-btn" data-strength="6" onclick="app.openQuickView('silken-heart')">Specs</button>
+                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Silken%20Heart%20Choker%20(%E2%82%B91%2C699).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
+                                        <span>BUY NOW</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: JEWELS CATALOG — Full store catalog with category filters -->
+        <section class="jewels-section" id="jewels">
+            <div class="container">
+                <span class="section-tag text-center">✦ OUR COLLECTION ✦</span>
+                <h2 class="section-title text-center">Sapphere Jewels</h2>
+                <p class="section-desc text-center">Browse our full collection — each piece crafted for elegance, shipped across Kerala.</p>
+
+                <!-- Category Filter Tabs -->
+                <div class="jewels-filter-bar">
+                    <button class="jewel-filter-btn active" data-filter="all" onclick="filterJewels(this,'all')">All</button>
+                    <button class="jewel-filter-btn" data-filter="necklace" onclick="filterJewels(this,'necklace')">Necklaces</button>
+                    <button class="jewel-filter-btn" data-filter="earring" onclick="filterJewels(this,'earring')">Earrings</button>
+                    <button class="jewel-filter-btn" data-filter="bracelet" onclick="filterJewels(this,'bracelet')">Bracelets</button>
+                    <button class="jewel-filter-btn" data-filter="ring" onclick="filterJewels(this,'ring')">Rings</button>
+                    <button class="jewel-filter-btn" data-filter="set" onclick="filterJewels(this,'set')">Sets</button>
+                </div>
+
+                <!-- Jewels Product Grid -->
+                <div class="jewels-grid" id="jewels-grid">
+
+                    <!-- Card 1 -->
+                    <div class="jcard" data-cat="necklace">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.49 PM.jpeg" alt="Royal Layered Necklace" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge sale">10% OFF</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Necklace</p>
+                            <h3 class="jcard-name">Royal Layered Necklace</h3>
+                            <div class="jcard-stars">★★★★★ <span>(128)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹1,899</span>
+                                <span class="jcard-original">₹2,099</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Royal%20Layered%20Necklace%20-%20%E2%82%B91%2C899" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="jcard" data-cat="necklace">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.58 PM.jpeg" alt="Gold Bead Choker" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge bestseller">BESTSELLER</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Necklace</p>
+                            <h3 class="jcard-name">Gold Bead Choker</h3>
+                            <div class="jcard-stars">★★★★★ <span>(84)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹1,499</span>
+                                <span class="jcard-original">₹1,799</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Gold%20Bead%20Choker%20-%20%E2%82%B91%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="jcard" data-cat="necklace">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.09 PM.jpeg" alt="Intimate Pearl Strand" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge new">NEW</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Necklace</p>
+                            <h3 class="jcard-name">Intimate Pearl Strand</h3>
+                            <div class="jcard-stars">★★★★☆ <span>(56)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹2,199</span>
+                                <span class="jcard-original">₹2,499</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Intimate%20Pearl%20Strand%20-%20%E2%82%B92%2C199" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="jcard" data-cat="necklace">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (1).jpeg" alt="Aura Heart Pendant" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge bestseller">ROYAL CHOICE</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Pendant Necklace</p>
+                            <h3 class="jcard-name">Aura Heart Pendant</h3>
+                            <div class="jcard-stars">★★★★★ <span>(112)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹1,599</span>
+                                <span class="jcard-original">₹1,899</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Aura%20Heart%20Pendant%20-%20%E2%82%B91%2C599" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="jcard" data-cat="earring">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (2).jpeg" alt="Floral Stud Earrings" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge sale">15% OFF</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Earrings</p>
+                            <h3 class="jcard-name">Floral Stud Earrings</h3>
+                            <div class="jcard-stars">★★★★★ <span>(203)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹899</span>
+                                <span class="jcard-original">₹1,059</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Floral%20Stud%20Earrings%20-%20%E2%82%B9899" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="jcard" data-cat="necklace">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (3).jpeg" alt="Silken Heart Choker" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge bestseller">POPULAR</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Choker</p>
+                            <h3 class="jcard-name">Silken Heart Choker</h3>
+                            <div class="jcard-stars">★★★★★ <span>(73)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹1,699</span>
+                                <span class="jcard-original">₹1,999</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Silken%20Heart%20Choker%20-%20%E2%82%B91%2C699" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 7 -->
+                    <div class="jcard" data-cat="earring">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.16 PM.jpeg" alt="Atelier Earring Suite" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge sale">LIMITED</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Earring Set</p>
+                            <h3 class="jcard-name">Atelier Earring Suite</h3>
+                            <div class="jcard-stars">★★★★★ <span>(46)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹2,499</span>
+                                <span class="jcard-original">₹2,999</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Atelier%20Earring%20Suite%20-%20%E2%82%B92%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 8 -->
+                    <div class="jcard" data-cat="bracelet">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.16 PM (1).jpeg" alt="Velvet Gold Bracelet" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge new">NEW</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Bracelet</p>
+                            <h3 class="jcard-name">Velvet Gold Bracelet</h3>
+                            <div class="jcard-stars">★★★★☆ <span>(37)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹1,299</span>
+                                <span class="jcard-original">₹1,499</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Velvet%20Gold%20Bracelet%20-%20%E2%82%B91%2C299" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 9 -->
+                    <div class="jcard" data-cat="ring">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM.jpeg" alt="Rose Gold Ring" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge bestseller">TOP RATED</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Ring</p>
+                            <h3 class="jcard-name">Rose Gold Statement Ring</h3>
+                            <div class="jcard-stars">★★★★★ <span>(91)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹1,199</span>
+                                <span class="jcard-original">₹1,399</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Rose%20Gold%20Statement%20Ring%20-%20%E2%82%B91%2C199" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 10 -->
+                    <div class="jcard" data-cat="earring">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM (1).jpeg" alt="Crystal Drop Earrings" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge sale">20% OFF</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Earrings</p>
+                            <h3 class="jcard-name">Crystal Drop Earrings</h3>
+                            <div class="jcard-stars">★★★★★ <span>(165)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹999</span>
+                                <span class="jcard-original">₹1,249</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20Crystal%20Drop%20Earrings%20-%20%E2%82%B9999" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 11 -->
+                    <div class="jcard" data-cat="set">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM (2).jpeg" alt="Bridal Combo Set" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge bestseller">COMBO</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Jewellery Set</p>
+                            <h3 class="jcard-name">Bridal Combo Set</h3>
+                            <div class="jcard-stars">★★★★★ <span>(52)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹3,499</span>
+                                <span class="jcard-original">₹4,199</span>
+                            </div>
+                            <a href="https://wa.me/9037411849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Bridal%20Combo%20Set%20-%20%E2%82%B93%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 12 -->
+                    <div class="jcard" data-cat="bracelet">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM.jpeg" alt="Diamond Tennis Bracelet" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge new">NEW</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Bracelet</p>
+                            <h3 class="jcard-name">Diamond Tennis Bracelet</h3>
+                            <div class="jcard-stars">★★★★★ <span>(44)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹2,799</span>
+                                <span class="jcard-original">₹3,299</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Diamond%20Tennis%20Bracelet%20-%20%E2%82%B92%2C799" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 13 -->
+                    <div class="jcard" data-cat="set">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM (1).jpeg" alt="Festive Gold Set" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge sale">FESTIVE</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Jewellery Set</p>
+                            <h3 class="jcard-name">Festive Gold Set</h3>
+                            <div class="jcard-stars">★★★★☆ <span>(68)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹2,999</span>
+                                <span class="jcard-original">₹3,599</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Festive%20Gold%20Set%20-%20%E2%82%B92%2C999" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 14 -->
+                    <div class="jcard" data-cat="set">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM (2).jpeg" alt="Sapphire Luxury Set" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge bestseller">LUXURY</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Premium Set</p>
+                            <h3 class="jcard-name">Sapphire Luxury Set</h3>
+                            <div class="jcard-stars">★★★★★ <span>(31)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹4,499</span>
+                                <span class="jcard-original">₹5,499</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Sapphire%20Luxury%20Set%20-%20%E2%82%B94%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Card 15 -->
+                    <div class="jcard" data-cat="ring">
+                        <div class="jcard-img-wrap">
+                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 6.42.16 PM.jpeg" alt="Emerald Solitaire Ring" class="jcard-img" loading="lazy">
+                            <span class="jcard-badge new">TRENDING</span>
+                        </div>
+                        <div class="jcard-body">
+                            <p class="jcard-cat">Ring</p>
+                            <h3 class="jcard-name">Emerald Solitaire Ring</h3>
+                            <div class="jcard-stars">★★★★★ <span>(77)</span></div>
+                            <div class="jcard-price-row">
+                                <span class="jcard-price">₹1,899</span>
+                                <span class="jcard-original">₹2,299</span>
+                            </div>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Emerald%20Solitaire%20Ring%20-%20%E2%82%B91%2C899" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                        </div>
+                    </div>
+
+                </div><!-- end jewels-grid -->
+
+                <!-- WhatsApp CTA Banner -->
+                <div class="jewels-cta-banner">
+                    <p>🤍 Can't find what you're looking for? We have more pieces available!</p>
+                    <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20would%20like%20to%20see%20your%20full%20jewellery%20collection." target="_blank" class="jewels-cta-btn">Chat with Us on WhatsApp</a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 3: HERITAGE & THE BRAND CAMPAIGN (Wine red velvet storytelling) -->
+        <section class="heritage-section" id="heritage">
+            <div class="container grid-2">
+                <div class="heritage-text">
+                    <span class="section-tag cinematic-reveal">THE SAPPHERE MANIFESTO</span>
+                    <h2 class="section-title cinematic-reveal">Femininity, Confidence, Self-Expression</h2>
+                    <p class="section-desc cinematic-reveal">
+                        We believe jewelry is not a mere accessory, but a silent form of physical self-expression. Each SAPPHERE piece is meticulously sculpted to connect emotionally with the wearer, elevating everyday styles into declarations of confidence.
+                    </p>
+                    <p class="section-desc cinematic-reveal">
+                        Our designs capture a royal grace, layering warm metallic 18K yellow gold sweeps with highly faceted royal blue sapphires, delivering an intimate connection that transcends ordinary luxury.
+                    </p>
+                </div>
+                <div class="heritage-visual">
+                    <div class="glass-card cinematic-card" id="heritage-card">
+                        <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.09 PM.jpeg" alt="SAPPHERE Story Visual" class="heritage-inner-img">
+                        <div class="glass-card-content">
+                            <span class="card-num">02</span>
+                            <h3 class="card-title">Intimate Grace</h3>
+                            <p class="card-desc">Hand-curated packaging nestled in custom wine-red velvet casings, designed to evoke the royal boutique aesthetic upon opening.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: 3D INTERACTIVE CUSTOM CUSTOMIZATION (Atelier) -->
+        <section class="interactive-section" id="interactive">
+            <div class="interactive-glow" id="interactive-glow"></div>
+            <div class="container grid-2">
+                <div class="interactive-visual-area">
+                    <div class="canvas-grab-area" id="canvas-grab-area">
+                        <div class="grab-indicator">
+                            <svg viewBox="0 0 100 100" class="circle-svg">
+                                <circle cx="50" cy="50" r="45" stroke="rgba(212,175,55,0.3)" stroke-width="1.5" fill="none"/>
+                            </svg>
+                            <span class="grab-text">SWIPE TO ROTATE THE SCULPTURE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="interactive-text-area">
+                    <span class="section-tag cinematic-reveal">VIRTUAL CUSTOMIZATION ATELIER</span>
+                    <h2 class="section-title cinematic-reveal">Interact with the Sculpture</h2>
+                    <p class="section-desc cinematic-reveal">
+                        Experience SAPPHERE's mathematical cutting design in 3D WebGL. Drag your finger or swipe across the customization circle to rotate the 18K gold band and inspect how the faceted royal blue sapphire gemstone catches and refracts lighting in real-time.
+                    </p>
+                    
+                    <div class="customizer-options cinematic-reveal">
+                        <div class="customizer-group">
+                            <span class="option-title">BAND ALLOY:</span>
+                            <div class="option-selectors">
+                                <button class="btn-option active" onclick="app.updateAlloy('gold')">Yellow Gold</button>
+                                <button class="btn-option" onclick="app.updateAlloy('rose')">Rose Gold</button>
+                                <button class="btn-option" onclick="app.updateAlloy('platinum')">Platinum</button>
+                            </div>
+                        </div>
+                        <div class="customizer-group">
+                            <span class="option-title">SAPPHIRE CUT:</span>
+                            <div class="option-selectors">
+                                <button class="btn-option active" onclick="app.updateGemCut('brilliant')">Brilliant Cut</button>
+                                <button class="btn-option" onclick="app.updateGemCut('emerald')">Emerald Cut</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: TRUST BUILDING SYSTEM -->
+        <section class="trust-section" id="trust">
+            <div class="container">
+                <span class="section-tag text-center">OUR PROMISE</span>
+                <h2 class="section-title text-center">The SAPPHERE Assurance</h2>
+                
+                <div class="trust-grid">
+                    <div class="trust-card glass-card">
+                        <h3 class="trust-title">Secure Commerce</h3>
+                        <p class="trust-desc">All transactions are secured via custom encrypted checkout lines and validated bank transfers.</p>
+                    </div>
+                    <div class="trust-card glass-card">
+                        <h3 class="trust-title">Authenticity Guarantee</h3>
+                        <p class="trust-desc">Every piece is certified with our stamped physical hallmark and digital certificate keys.</p>
+                    </div>
+                    <div class="trust-card glass-card">
+                        <h3 class="trust-title">Shipping Across India</h3>
+                        <p class="trust-desc">Delivered via secure luxury courier services across all states with real-time tracking.</p>
+                    </div>
+                    <div class="trust-card glass-card">
+                        <h3 class="trust-title">Handcrafted Quality</h3>
+                        <p class="trust-desc">Carefully structured in our private ateliers with zero-defect quality reviews.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="luxury-footer">
+            <div class="footer-top grid-3">
+                <div class="footer-brand">
+                    <h3 class="footer-logo">SAPPHERE</h3>
+                    <p class="footer-tagline"> Jewellery That Speaks Royalty </p>
+                </div>
+                <div class="footer-links-wrap">
+                    <h4 class="footer-heading">THE ATELIER</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Grace & quiet confidence</a></li>
+                        <li><a href="#" class="footer-link">Everyday elegance</a></li>
+                        <li><a href="#" class="footer-link">Bespoke Customs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-wrap">
+                    <h4 class="footer-heading">LEGAL & SECURE</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Authenticity Guarantee</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="copyright">© 2026 SAPPHERE JEWELLRY STORE.</span>
+                <span class="curator">Created by @shamillc_ </span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- PREMIUM INTERACTIVE CUSTOMER SERVICE: FLOATING CHAT WIDGET -->
+    <div class="whatsapp-floating-widget" id="whatsapp-widget">
+        <!-- Floating Trigger Button -->
+        <button class="whatsapp-trigger-btn" onclick="app.toggleChatWidget()">
+            <svg viewBox="0 0 24 24" class="whatsapp-svg-icon" fill="currentColor">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.528 3.977 14.053 2.95 11.43 2.95c-5.449 0-9.873 4.369-9.877 9.8.002 2.05.543 4.056 1.574 5.822l-.997 3.637 3.734-.99.523.312zm9.952-6.521c-.274-.136-1.62-.8-1.869-.893-.249-.09-.43-.136-.61.136-.18.272-.697.89-.854 1.072-.158.183-.316.205-.59.069-.274-.136-1.155-.425-2.2-1.361-.817-.728-1.37-1.628-1.53-1.9-.16-.272-.016-.418.12-.553.125-.122.274-.32.411-.48.136-.16.18-.271.272-.452.09-.18.045-.339-.022-.475-.069-.136-.61-1.477-.837-2.022-.22-.53-.443-.458-.61-.466-.157-.008-.339-.009-.52-.009-.18 0-.475.068-.723.338-.249.271-.95.927-.95 2.26s.972 2.62 1.107 2.802c.135.18 1.91 2.916 4.627 4.099.645.282 1.151.451 1.545.577.65.207 1.24.178 1.707.108.52-.078 1.62-.663 1.846-1.303.227-.64.227-1.19.158-1.303-.069-.113-.249-.203-.523-.339z"/>
+            </svg>
+            <span class="whatsapp-badge">1</span>
+        </button>
+
+        <!-- Elegant Chat Modal Card -->
+        <div class="whatsapp-chat-card" id="whatsapp-chat-card">
+            <div class="chat-card-header">
+                <div class="chat-avatar-group">
+                    <div class="chat-avatar-status"></div>
+                    <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM.jpeg" alt="Boutique Assistant" class="chat-avatar-img">
+                </div>
+                <div class="chat-brand-info">
+                    <span class="chat-brand-name">SAPPHERE Boutique</span>
+                    <span class="chat-brand-status">Online • Replies Instantly</span>
+                </div>
+                <button class="btn-close-chat" onclick="app.toggleChatWidget()">×</button>
+            </div>
+            <div class="chat-card-body">
+                <div class="chat-msg">
+                    <span class="chat-msg-time">17:59</span>
+                    <p class="chat-msg-text">Hello! Welcome to SAPPHERE Atelier. I would be absolutely delighted to help you select your timeless piece, assist with custom order matrices, or guide you through an instant checkout. How may I serve you today?</p>
+                </div>
+            </div>
+            <div class="chat-card-footer">
+                <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%20Assistant%21%20I%20am%20exploring%20your%20boutique%20and%20would%20love%20some%20help%20in%20selecting%20a%20jewelry%20piece." target="_blank" class="chat-connect-btn">
+                    <span>START INSTANT CHAT</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MOBILE QUICK-VIEW BOTTOM DRAWER SHEET -->
+    <div class="quickview-overlay" id="quickview-overlay" onclick="app.closeQuickView()"></div>
+    <div class="quickview-drawer" id="quickview-drawer">
+        <div class="drawer-drag-line"></div>
+        <div class="drawer-header">
+            <h3 class="drawer-title" id="qv-title">Product Details</h3>
+            <button class="btn-drawer-close" onclick="app.closeQuickView()">×</button>
+        </div>
+        <div class="drawer-body">
+            <div class="drawer-layout">
+                <div class="drawer-visual">
+                    <img src="" alt="Product View" class="drawer-img" id="qv-img">
+                </div>
+                <div class="drawer-info">
+                    <div class="drawer-rating" id="qv-rating">5.0 ★</div>
+                    <p class="drawer-desc" id="qv-desc">Detailed story of the jewelry piece...</p>
+                    
+                    <h4 class="drawer-sub-heading">CARE INSTRCTIONS</h4>
+                    <p class="drawer-care">Avoid contact with chemical liquids, perfumes, or water spray. Store nestled within our custom velvet packaging boxes to maintain its metallic high-polish sweeps.</p>
+
+                    <h4 class="drawer-sub-heading">SPECIFICATIONS</h4>
+                    <ul class="drawer-specs-list" id="qv-specs">
+                        <!-- populated dynamically -->
+                    </ul>
+
+                    <div class="drawer-price-line">
+                        <span class="drawer-price" id="qv-price">₹0</span>
+                        <a href="" target="_blank" class="btn-drawer-submit" id="qv-buy-link">
+                            <span>ORDER VIA WHATSAPP</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jewels Catalog Filter Logic -->
+    <script>
+        function filterJewels(btn, cat) {
+            // Update active tab
+            document.querySelectorAll('.jewel-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Show/hide cards
+            const cards = document.querySelectorAll('#jewels-grid .jcard');
+            cards.forEach(card => {
+                const match = cat === 'all' || card.dataset.cat === cat;
+                if (match) {
+                    card.classList.remove('hidden');
+                    card.style.animation = 'jcardFadeIn 0.4s ease forwards';
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Toggle mobile navigation overlay
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobile-nav-overlay');
+            const toggleBtn = document.getElementById('nav-toggle');
+            if (overlay && toggleBtn) {
+                overlay.classList.toggle('active');
+                toggleBtn.classList.toggle('active');
+                if (overlay.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                    if (window.app && window.app.lenis) window.app.lenis.stop();
+                } else {
+                    document.body.style.overflow = '';
+                    if (window.app && window.app.lenis) window.app.lenis.start();
+                }
+            }
+        }
+
+        // Smooth scroll for all internal anchor links (overrides Lenis for simplicity)
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+    <style>
+        @keyframes jcardFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+    <!-- WebGL and Scroll JavaScript Engine Script -->
+    <script src="config.js?v=6"></script>
+    <script type="module" src="main.js?v=6"></script>
+
+</body>
+</html>

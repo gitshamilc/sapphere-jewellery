@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAPPHERE — Merchant Sign In</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="login-body">
+
+  <!-- Background storefront blur effect -->
+  <div class="login-bg-overlay"></div>
+
+  <div class="login-container-wrap">
+    <div class="login-box glass">
+      <a href="../index.html" class="login-close" aria-label="Close Login"><i data-lucide="x"></i></a>
+      <div class="login-header">
+        <div class="logo">
+          <i data-lucide="shield-check" style="color:var(--primary); width: 28px; height: 28px;"></i>
+          SAPPHERE<span class="dot">.</span>
+        </div>
+        <h2>Merchant Sign In</h2>
+        <p class="subtitle">Enter credentials to access the admin dashboard.</p>
+      </div>
+
+      <form id="login-form">
+        <div class="login-field">
+          <label for="userid">Username</label>
+          <input type="text" id="userid" placeholder="Enter username" required autocomplete="username">
+        </div>
+        <div class="login-field">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter password" required autocomplete="current-password">
+        </div>
+        <div id="login-error" class="login-error">Incorrect username or password.</div>
+        
+        <button type="submit" class="auth-btn">
+          <i data-lucide="unlock" style="width:16px; height:16px;"></i>
+          Authenticate
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const creds = { id: "sapphere", pass: "sapphere@321" };
+    document.getElementById('login-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const uid = document.getElementById('userid').value.trim();
+      const pwd = document.getElementById('password').value;
+      const errorDiv = document.getElementById('login-error');
+      
+      if (uid === creds.id && pwd === creds.pass) {
+        sessionStorage.setItem('adminAuth', 'true');
+        location.href = 'panel.html';
+      } else {
+        errorDiv.style.display = 'block';
+      }
+    });
+    
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAPPHERE â€” Admin Control Center</title>
+
+  <!-- Auth Gate -->
+  <script>
+    if (sessionStorage.getItem('adminAuth') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <link rel="stylesheet" href="admin.css?v=5">
+  <script src="../config.js?v=5"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="admin-layout">
+
+    <!-- â•â•â• Sidebar â•â•â• -->
+    <aside class="sidebar glass">
+      <div class="sidebar-brand">
+        <i data-lucide="gem" style="color:var(--primary);"></i>
+        SAPPHERE<span class="dot">.</span>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li class="nav-tab active" id="tab-products">
+          <a href="#"><i data-lucide="package"></i> Products</a>
+        </li>
+      </ul>
+
+      <div class="sidebar-bottom">
+        <a href="../index.html" class="sidebar-action-btn">
+          <i data-lucide="eye"></i> Preview Store
+        </a>
+        <button id="signout-btn" class="sidebar-action-btn danger" onclick="signout()">
+          <i data-lucide="log-out"></i> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- â•â•â• Main Panel â•â•â• -->
+    <main class="main-panel">
+
+      <div class="panel-header">
+        <div>
+          <h1>Admin Control Center</h1>
+          <p>Manage products, banners, and pricing in real time.</p>
+        </div>
+        <a href="../index.html" class="sidebar-action-btn" style="border-radius:10px; font-size:13px; width: auto; padding: 10px 16px;">
+          <i data-lucide="arrow-left"></i> Storefront
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card glass">
+          <div class="stat-icon"><i data-lucide="package"></i></div>
+          <div>
+            <h3>Total Products</h3>
+            <p id="stat-products">0</p>
+          </div>
+        </div>
+        <div class="stat-card glass">
+          <div class="stat-icon" style="background:rgba(59,130,246,0.08); color:var(--accent-blue);"><i data-lucide="star"></i></div>
+          <div>
+            <h3>Featured Items</h3>
+            <p id="stat-featured">0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Section -->
+      <section id="section-products" class="panel-section active">
+        <div class="section-bar">
+          <div>
+            <h2>Products Catalog</h2>
+            <p>Add, edit, or delete inventory items.</p>
+          </div>
+          <button class="action-btn" onclick="openProductForm()">
+            <i data-lucide="plus-circle"></i> Add Product
+          </button>
+        </div>
+        
+        <div class="table-wrap glass">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Badge</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- â•â•â• Product Form Modal â•â•â• -->
+  <div id="product-form-modal" class="form-overlay">
+    <div class="form-box glass">
+      <div class="form-head">
+        <h2 id="prod-form-title">Add New Product</h2>
+        <button class="form-close" onclick="closeForm()"><i data-lucide="x"></i></button>
+      </div>
+      <div class="form-content">
+        <form id="product-form" onsubmit="saveProduct(event)">
+          <div class="field">
+            <label for="f-name">Product Name *</label>
+            <input type="text" id="f-name" placeholder="e.g. Flora Bead Choker" required autocomplete="off">
+          </div>
+          
+          <div class="field-row">
+            <div class="field">
+              <label for="f-cat">Category *</label>
+              <select id="f-cat" required>
+                <option value="necklace">Necklace</option>
+                <option value="earring">Earring</option>
+                <option value="bracelet">Bracelet</option>
+                <option value="ring">Ring</option>
+                <option value="set">Set</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-price">Price (â‚¹) *</label>
+              <input type="number" id="f-price" min="0" placeholder="1899" required autocomplete="off">
+            </div>
+          </div>
+          
+          <div class="field-row">
+            <div class="field">
+              <label for="f-orig-price">Original Price (for discount strikethrough)</label>
+              <input type="number" id="f-orig-price" min="0" placeholder="2099" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="f-badge">Promo Badge</label>
+              <input type="text" id="f-badge" placeholder="e.g. BESTSELLER, NEW, 15% OFF" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="field" style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+            <input type="checkbox" id="f-featured" style="width: auto; margin: 0;">
+            <label for="f-featured" style="margin: 0; cursor: pointer;">Feature on homepage (masterpieces section)</label>
+          </div>
+
+          <div class="field">
+            <label>Product Image *</label>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <img id="f-image-preview" src="" style="width:44px; height:44px; border-radius:6px; object-fit:cover; display:none; border:1px solid var(--border-glass);">
+              <input type="file" id="f-image" accept="image/*" style="flex:1;" onchange="previewImage(event)">
+              <input type="hidden" id="f-image-data">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-desc">Description</label>
+            <textarea id="f-desc" placeholder="Product features, materials, craftsmanship..." required></textarea>
+          </div>
+
+          <div class="form-btns">
+            <button type="button" class="cancel-btn" onclick="closeForm()">Cancel</button>
+            <button type="submit" class="action-btn" style="box-shadow: none;">Save Product</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- â•â•â• Toast Notification Container â•â•â• -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- â•â•â• Loader Overlay â•â•â• -->
+  <div id="admin-loading-overlay" class="admin-loading-overlay">
+    <div class="loader-box glass">
+      <div class="spinner-ring"></div>
+      <p id="admin-loading-msg">Synchronizing database...</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase } from "../supabase/client.js";
+    const STORAGE_KEY = 'sapphereProducts';
+    let editIndex = null;
+    let productList = [];
+
+    // Default luxurious jewelry database
+    const defaultProducts = [
+        {
+            id: "flora-bead",
+            name: "Flora Bead Choker",
+            price: 1899,
+            originalPrice: 2099,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.49 PM.jpeg",
+            cat: "necklace",
+            badge: "BESTSELLER",
+            description: "A playful, graceful gold chain adorned with hand-strung multi-colored floral bead charms.",
+            rating: "4.9",
+            reviews: "84",
+            featured: true
+        },
+        {
+            id: "earring-suite",
+            name: "Atelier Earring Suite",
+            price: 2499,
+            originalPrice: 2999,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.16 PM.jpeg",
+            cat: "earring",
+            badge: "LIMITED",
+            description: "Curated suite of three distinct gold earrings: floral studs, double heart hoops, and bamboo hoops.",
+            rating: "4.8",
+            reviews: "46",
+            featured: true
+        },
+        {
+            id: "aura-heart",
+            name: "Aura Heart Pendant",
+            price: 1599,
+            originalPrice: 1899,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (1).jpeg",
+            cat: "necklace",
+            badge: "ROYAL CHOICE",
+            description: "A classic minimal gold chain holding a polished solid gold heart pendant on a premium display stand.",
+            rating: "5.0",
+            reviews: "112",
+            featured: true
+        },
+        {
+            id: "silken-heart",
+            name: "Silken Heart Choker",
+            price: 1699,
+            originalPrice: 1999,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (3).jpeg",
+            cat: "necklace",
+            badge: "POPULAR",
+            description: "A delicate hollow gold heart pendant layered elegantly over natural liquid-silk champagne drapery.",
+            rating: "4.9",
+            reviews: "73",
+            featured: true
+        },
+        {
+            id: "layered-necklace",
+            name: "Royal Layered Necklace",
+            price: 1899,
+            originalPrice: 2099,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.49 PM.jpeg",
+            cat: "necklace",
+            badge: "10% OFF",
+            description: "Intricately styled layered necklace blending warm yellow gold bars and custom sweep links.",
+            rating: "5.0",
+            reviews: "128",
+            featured: false
+        },
+        {
+            id: "gold-choker",
+            name: "Gold Bead Choker",
+            price: 1499,
+            originalPrice: 1799,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.58 PM.jpeg",
+            cat: "necklace",
+            badge: "BESTSELLER",
+            description: "Minimalist elegant gold bead choker, perfect for stacking and everyday elegance.",
+            rating: "5.0",
+            reviews: "84",
+            featured: false
+        },
+        {
+            id: "pearl-strand",
+            name: "Intimate Pearl Strand",
+            price: 2199,
+            originalPrice: 2499,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.09 PM.jpeg",
+            cat: "necklace",
+            badge: "NEW",
+            description: "Elegant genuine pearl strand displaying subtle cream iridescent tones and safe gold locks.",
+            rating: "4.0",
+            reviews: "56",
+            featured: false
+        },
+        {
+            id: "floral-studs",
+            name: "Floral Stud Earrings",
+            price: 899,
+            originalPrice: 1059,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (2).jpeg",
+            cat: "earring",
+            badge: "15% OFF",
+            description: "Dainty floral stud earrings designed to frame the face with light-catching golden petals.",
+            rating: "5.0",
+            reviews: "203",
+            featured: false
+        },
+        {
+            id: "gold-bracelet",
+            name: "Velvet Gold Bracelet",
+            price: 1299,
+            originalPrice: 1499,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.16 PM (1).jpeg",
+            cat: "bracelet",
+            badge: "NEW",
+            description: "Sleek and polished gold bracelet designed with smooth link loops and custom security sweeps.",
+            rating: "4.0",
+            reviews: "37",
+            featured: false
+        },
+        {
+            id: "gold-ring",
+            name: "Rose Gold Statement Ring",
+            price: 1199,
+            originalPrice: 1399,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM.jpeg",
+            cat: "ring",
+            badge: "TOP RATED",
+            description: "Bold rose gold band ring, hand-polished to capture modern architectural sophistication.",
+            rating: "5.0",
+            reviews: "91",
+            featured: false
+        },
+        {
+            id: "crystal-drops",
+            name: "Crystal Drop Earrings",
+            price: 999,
+            originalPrice: 1249,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM (1).jpeg",
+            cat: "earring",
+            badge: "20% OFF",
+            description: "Dazzling crystal drop earrings that cascade gracefully to add royalty and glamour.",
+            rating: "5.0",
+            reviews: "165",
+            featured: false
+        },
+        {
+            id: "combo-set",
+            name: "Bridal Combo Set",
+            price: 3499,
+            originalPrice: 4199,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM (2).jpeg",
+            cat: "set",
+            badge: "COMBO",
+            description: "A rich jewelry suite containing matching royal layered choker and drop studs.",
+            rating: "5.0",
+            reviews: "52",
+            featured: false
+        },
+        {
+            id: "tennis-bracelet",
+            name: "Diamond Tennis Bracelet",
+            price: 2799,
+            originalPrice: 3299,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM.jpeg",
+            cat: "bracelet",
+            badge: "NEW",
+            description: "Classic high-end tennis bracelet hand-set with highly brilliant sparkling faceted simulated diamonds.",
+            rating: "5.0",
+            reviews: "44",
+            featured: false
+        },
+        {
+            id: "festive-set",
+            name: "Festive Gold Set",
+            price: 2999,
+            originalPrice: 3599,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM (1).jpeg",
+            cat: "set",
+            badge: "FESTIVE",
+            description: "Elegant traditional gold-sweep matching choker and bangle set designed for celebrations.",
+            rating: "4.0",
+            reviews: "68",
+            featured: false
+        },
+        {
+            id: "luxury-set",
+            name: "Sapphire Luxury Set",
+            price: 4499,
+            originalPrice: 5499,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM (2).jpeg",
+            cat: "set",
+            badge: "LUXURY",
+            description: "Our crown jewel masterpiece suite, featuring royal blue sapphires in intricate golden settings.",
+            rating: "5.0",
+            reviews: "31",
+            featured: false
+        },
+        {
+            id: "emerald-ring",
+            name: "Emerald Solitaire Ring",
+            price: 1899,
+            originalPrice: 2299,
+            img: "../photosjewewllry/WhatsApp Image 2026-05-29 at 6.42.16 PM.jpeg",
+            cat: "ring",
+            badge: "TRENDING",
+            description: "A breathtaking solitaire ring showcasing a deep forest green faceted emerald cut gem.",
+            rating: "5.0",
+            reviews: "77",
+            featured: false
+        }
+    ];
+
+    const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && window.CONFIG.SUPABASE_URL && window.CONFIG.SUPABASE_ANON_KEY;
+
+    async function loadProducts() {
+      if (isSupabaseConfigured) {
+        try {
+          const { data, error } = await supabase.from('jewelry_products').select('*').order('created_at', { ascending: true });
+          if (error) throw error;
+          if (data && data.length > 0) {
+            productList = data;
+            updateDashboard();
+            return;
+          } else {
+            // Seed database
+            const cleanDefaults = defaultProducts.map(p => {
+              const item = { ...p };
+              if (item.img.startsWith('../')) {
+                 item.img = item.img.substring(3);
+              }
+              return item;
+            });
+            const { error: insertError } = await supabase.from('jewelry_products').insert(cleanDefaults);
+            if (insertError) throw insertError;
+            productList = cleanDefaults;
+            updateDashboard();
+            return;
+          }
+        } catch (err) {
+          console.error("Supabase load error, falling back to LocalStorage:", err);
+        }
+      }
+
+      // fallback
+      let stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) {
+        const cleanDefaults = defaultProducts.map(p => {
+          const item = { ...p };
+          if (item.img.startsWith('../')) {
+             item.img = item.img.substring(3);
+          }
+          return item;
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanDefaults));
+        stored = JSON.stringify(cleanDefaults);
+      }
+      productList = JSON.parse(stored);
+      updateDashboard();
+    }
+
+    function saveProductsToStorage() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(productList));
+      updateDashboard();
+    }
+
+    function updateDashboard() {
+      // Stats Counters
+      document.getElementById('stat-products').textContent = productList.length;
+      document.getElementById('stat-featured').textContent = productList.filter(p => p.featured).length;
+
+      // Table Render
+      const tbody = document.getElementById('products-tbody');
+      tbody.innerHTML = '';
+
+      productList.forEach((p, idx) => {
+        const tr = document.createElement('tr');
+        
+        // Handle path rendering relative to admin/ folder
+        let displayImg = p.img;
+        if (!displayImg.startsWith('data:') && !displayImg.startsWith('http') && !displayImg.startsWith('../')) {
+          displayImg = '../' + displayImg;
+        }
+
+        const badgeText = p.badge || '-';
+        const badgeClass = p.badge ? 'cat-tag' : 'text-muted';
+        
+        tr.innerHTML = `
+          <td>
+            <div class="thumb-cell">
+              <img src="${displayImg}" alt="${p.name}" class="thumb-img" onerror="this.src='../photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.49 PM.jpeg'">
+              <div>
+                <div class="thumb-name">${p.name}</div>
+                <div class="thumb-id">${p.id}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="cat-tag">${p.cat.toUpperCase()}</span>
+          </td>
+          <td>
+            <span class="price-gold">â‚¹${Number(p.price).toLocaleString('en-IN')}</span>
+          </td>
+          <td>
+            <span class="${badgeClass}">${badgeText}</span>
+          </td>
+          <td>
+            <div class="row-actions">
+              <button class="mini-btn edit" onclick="editProduct(${idx})" title="Edit Product"><i data-lucide="edit-3"></i></button>
+              <button class="mini-btn del" onclick="deleteProduct(${idx})" title="Delete Product"><i data-lucide="trash-2"></i></button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Modal forms management
+    function openProductForm() {
+      editIndex = null;
+      document.getElementById('product-form').reset();
+      document.getElementById('f-image-preview').style.display = 'none';
+      document.getElementById('f-image-data').value = '';
+      document.getElementById('prod-form-title').textContent = 'Add New Product';
+      document.getElementById('f-image').required = true;
+      
+      const modal = document.getElementById('product-form-modal');
+      modal.classList.add('active');
+    }
+
+    function closeForm() {
+      const modal = document.getElementById('product-form-modal');
+      modal.classList.remove('active');
+    }
+
+    // Image upload preview as base64
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const preview = document.getElementById('f-image-preview');
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        document.getElementById('f-image-data').value = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function saveProduct(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('f-name').value.trim();
+      const cat = document.getElementById('f-cat').value;
+      const price = Number(document.getElementById('f-price').value);
+      const origPriceVal = document.getElementById('f-orig-price').value;
+      const originalPrice = origPriceVal ? Number(origPriceVal) : null;
+      const badge = document.getElementById('f-badge').value.trim();
+      const featured = document.getElementById('f-featured').checked;
+      const description = document.getElementById('f-desc').value.trim();
+      const imgData = document.getElementById('f-image-data').value;
+
+      const loader = document.getElementById('admin-loading-overlay');
+      if (loader) {
+        document.getElementById('admin-loading-msg').textContent = "Saving product...";
+        loader.style.display = 'flex';
+        loader.classList.add('active');
+      }
+
+      try {
+        if (editIndex !== null) {
+          // Edit existing product
+          const item = productList[editIndex];
+          const updatedFields = {
+            name,
+            cat,
+            price,
+            originalPrice,
+            badge,
+            featured,
+            description
+          };
+          if (imgData) {
+            updatedFields.img = imgData;
+          }
+
+          if (isSupabaseConfigured) {
+            const { error } = await supabase.from('jewelry_products').update(updatedFields).eq('id', item.id);
+            if (error) throw error;
+          } else {
+            Object.assign(item, updatedFields);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(productList));
+          }
+          showToast('success', 'Product updated successfully.');
+        } else {
+          // Add new product
+          const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '-' + Math.floor(Math.random() * 1000);
+          const newProd = {
+            id,
+            name,
+            cat,
+            price,
+            originalPrice,
+            badge,
+            featured,
+            description,
+            img: imgData || 'photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.49 PM.jpeg',
+            rating: "5.0",
+            reviews: "0"
+          };
+
+          if (isSupabaseConfigured) {
+            const { error } = await supabase.from('jewelry_products').insert([newProd]);
+            if (error) throw error;
+          } else {
+            productList.push(newProd);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(productList));
+          }
+          showToast('success', 'Product added successfully.');
+        }
+
+        if (isSupabaseConfigured) {
+          const { data, error } = await supabase.from('jewelry_products').select('*').order('created_at', { ascending: true });
+          if (error) throw error;
+          productList = data || [];
+        }
+        updateDashboard();
+        closeForm();
+      } catch (err) {
+        showToast('error', 'Error saving product: ' + err.message);
+        console.error(err);
+      } finally {
+        if (loader) {
+          loader.classList.remove('active');
+          setTimeout(() => loader.style.display = 'none', 300);
+        }
+      }
+    }
+
+    function editProduct(idx) {
+      editIndex = idx;
+      const p = productList[idx];
+
+      document.getElementById('f-name').value = p.name;
+      document.getElementById('f-cat').value = p.cat;
+      document.getElementById('f-price').value = p.price;
+      document.getElementById('f-orig-price').value = p.originalPrice || '';
+      document.getElementById('f-badge').value = p.badge || '';
+      document.getElementById('f-featured').checked = !!p.featured;
+      document.getElementById('f-desc').value = p.description || '';
+      document.getElementById('prod-form-title').textContent = 'Edit Product';
+      document.getElementById('f-image').required = false;
+
+      // Handle path rendering relative to admin/ folder
+      let displayImg = p.img;
+      if (!displayImg.startsWith('data:') && !displayImg.startsWith('http') && !displayImg.startsWith('../')) {
+        displayImg = '../' + displayImg;
+      }
+      
+      const preview = document.getElementById('f-image-preview');
+      preview.src = displayImg;
+      preview.style.display = 'block';
+      document.getElementById('f-image-data').value = ''; // only replace if new file uploaded
+
+      const modal = document.getElementById('product-form-modal');
+      modal.classList.add('active');
+    }
+
+    async function deleteProduct(idx) {
+      const p = productList[idx];
+      if (confirm(`Are you sure you want to permanently delete "${p.name}" from catalog?`)) {
+        const loader = document.getElementById('admin-loading-overlay');
+        if (loader) {
+          document.getElementById('admin-loading-msg').textContent = "Deleting product...";
+          loader.style.display = 'flex';
+          loader.classList.add('active');
+        }
+
+        try {
+          if (isSupabaseConfigured) {
+            const { error } = await supabase.from('jewelry_products').delete().eq('id', p.id);
+            if (error) throw error;
+            productList.splice(idx, 1);
+          } else {
+            productList.splice(idx, 1);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(productList));
+          }
+          updateDashboard();
+          showToast('error', 'Product removed from catalog.');
+        } catch (err) {
+          showToast('error', 'Error deleting product: ' + err.message);
+          console.error(err);
+        } finally {
+          if (loader) {
+            loader.classList.remove('active');
+            setTimeout(() => loader.style.display = 'none', 300);
+          }
+        }
+      }
+    }
+
+    // Bind module functions to window scope for HTML event listeners
+    window.openProductForm = openProductForm;
+    window.closeForm = closeForm;
+    window.previewImage = previewImage;
+    window.saveProduct = saveProduct;
+    window.editProduct = editProduct;
+    window.deleteProduct = deleteProduct;
+    window.signout = signout;
+
+    // Sign out function
+    function signout() {
+      sessionStorage.removeItem('adminAuth');
+      location.href = 'login.html';
+    }
+
+    // Toast alerts helper
+    function showToast(type, msg) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast glass ${type}`;
+      
+      let iconName = 'check-circle';
+      if (type === 'error') iconName = 'alert-triangle';
+      if (type === 'warning') iconName = 'info';
+
+      toast.innerHTML = `
+        <i data-lucide="${iconName}" class="toast-icon"></i>
+        <span class="toast-msg">${msg}</span>
+      `;
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      // Entrance animation
+      setTimeout(() => toast.classList.add('show'), 50);
+
+      // Exit and remove
+      setTimeout(() => {
+        toast.classList.remove('show');
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 400);
+      }, 3500);
+    }
+
+    // Loading overlay trigger
+    window.addEventListener('DOMContentLoaded', () => {
+      // Hide loader after loading
+      setTimeout(() => {
+        const loader = document.getElementById('admin-loading-overlay');
+        loader.classList.remove('active');
+        setTimeout(() => loader.style.display = 'none', 300);
+      }, 1000);
+      
+      loadProducts();
+    });
+
+    // Make loader active initially
+    document.getElementById('admin-loading-overlay').classList.add('active');
+  </script>
+</body>
+</html>
+
