@@ -53,7 +53,7 @@
       
       if (uid === creds.id && pwd === creds.pass) {
         sessionStorage.setItem('adminAuth', 'true');
-        location.href = 'panel.html';
+        location.href = '/admin/panel';
       } else {
         errorDiv.style.display = 'block';
       }
