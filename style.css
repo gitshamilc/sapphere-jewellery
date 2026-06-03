@@ -591,21 +591,56 @@ section {
 }
 
 /* ---------- Responsive Adjustments ---------- */
-/* Hero text scaling for mobile */
+/* Hero text scaling and visual layout adjustments for mobile */
+@media (max-width: 767px) {
+    .hero-section {
+        height: auto;
+        min-height: auto;
+        padding: 8rem 0 4rem;
+    }
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 3.5rem;
+        text-align: center;
+    }
+    .hero-text-col {
+        align-items: center;
+    }
+    .hero-image-col {
+        justify-content: center;
+    }
+    .hero-image-frame {
+        width: 240px;
+        height: 240px;
+    }
+}
+
 @media (max-width: 480px) {
     .hero-headline {
-        font-size: 2.5rem;
-        line-height: 1.2;
+        font-size: 2.4rem;
+        line-height: 1.25;
     }
     .hero-subtitle {
-        font-size: 0.55rem;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
     }
     .hero-description {
         font-size: 0.85rem;
+        padding: 0 10px;
     }
     .hero-actions {
         flex-direction: column;
+        align-items: center;
+        width: 100%;
         gap: 0.6rem;
+    }
+    .hero-actions .btn-primary {
+        width: 100%;
+        max-width: 280px;
+    }
+    .hero-image-frame {
+        width: 200px;
+        height: 200px;
     }
 }
 
