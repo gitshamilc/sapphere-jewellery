@@ -436,6 +436,9 @@ class App {
     constructor() {
         gsap.registerPlugin(ScrollTrigger);
 
+        // Mark body as JS-ready so CSS-driven animations activate
+        document.body.classList.add('js-ready');
+
         this.scrollState = {
             progress: 0,
             activeSection: 0,
@@ -837,48 +840,69 @@ class App {
         const title = document.querySelector('.loader-title');
         const barContainer = document.querySelector('.loader-bar-container');
 
+        // Safety: always unlock scroll after 8s no matter what
+        const safetyUnlock = setTimeout(() => {
+            document.body.style.overflow = '';
+            document.body.style.height = '';
+            if (loader) loader.style.display = 'none';
+            onCompleteCallback();
+        }, 8000);
+
         if (!loader) {
+            clearTimeout(safetyUnlock);
             onCompleteCallback();
             return;
         }
 
-        document.body.style.overflow = 'hidden';
+        try {
+            document.body.style.overflow = 'hidden';
 
-        const tl = gsap.timeline();
-        
-        tl.to(tagline, { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out' })
-          .to(title, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', letterSpacing: '0.5em' }, '-=0.6')
-          .to(barContainer, { opacity: 1, duration: 0.8 }, '-=0.8')
-          .to(loaderPercent, { opacity: 0.7, duration: 0.8 }, '-=0.8');
+            const tl = gsap.timeline();
+            
+            tl.to(tagline, { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out' })
+              .to(title, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', letterSpacing: '0.5em' }, '-=0.6')
+              .to(barContainer, { opacity: 1, duration: 0.8 }, '-=0.8')
+              .to(loaderPercent, { opacity: 0.7, duration: 0.8 }, '-=0.8');
 
-        const progressObj = { value: 0 };
-        gsap.to(progressObj, {
-            value: 100,
-            duration: 2.2,
-            ease: 'power1.inOut',
-            onUpdate: () => {
-                const percent = Math.floor(progressObj.value);
-                loaderBar.style.width = `${percent}%`;
-                loaderPercent.textContent = `${percent}%`;
-            },
-            onComplete: () => {
-                const exitTl = gsap.timeline({
-                    onComplete: () => {
-                        loader.style.display = 'none';
-                        document.body.style.overflow = '';
-                        onCompleteCallback();
-                    }
-                });
+            const progressObj = { value: 0 };
+            gsap.to(progressObj, {
+                value: 100,
+                duration: 2.2,
+                ease: 'power1.inOut',
+                onUpdate: () => {
+                    const percent = Math.floor(progressObj.value);
+                    if (loaderBar) loaderBar.style.width = `${percent}%`;
+                    if (loaderPercent) loaderPercent.textContent = `${percent}%`;
+                },
+                onComplete: () => {
+                    clearTimeout(safetyUnlock);
+                    const exitTl = gsap.timeline({
+                        onComplete: () => {
+                            loader.style.display = 'none';
+                            document.body.style.overflow = '';
+                            document.body.style.height = '';
+                            onCompleteCallback();
+                        }
+                    });
 
-                exitTl.to(loaderPercent, { opacity: 0, duration: 0.3 })
-                      .to([tagline, title, barContainer], { y: -50, opacity: 0, stagger: 0.1, duration: 0.6, ease: 'power2.in' })
-                      .to(document.querySelector('.loader-bg'), { 
-                          transform: 'translateY(-100%)', 
-                          duration: 1.2, 
-                          ease: 'power4.inOut' 
-                      }, '-=0.2');
-            }
-        });
+                    const loaderBg = document.querySelector('.loader-bg');
+                    exitTl.to(loaderPercent, { opacity: 0, duration: 0.3 })
+                          .to([tagline, title, barContainer], { y: -50, opacity: 0, stagger: 0.1, duration: 0.6, ease: 'power2.in' })
+                          .to(loaderBg, { 
+                              transform: 'translateY(-100%)', 
+                              duration: 1.2, 
+                              ease: 'power4.inOut' 
+                          }, '-=0.2');
+                }
+            });
+        } catch(e) {
+            // If GSAP fails, immediately show site
+            clearTimeout(safetyUnlock);
+            loader.style.display = 'none';
+            document.body.style.overflow = '';
+            document.body.style.height = '';
+            onCompleteCallback();
+        }
     }
 
     /* ==========================================================================
