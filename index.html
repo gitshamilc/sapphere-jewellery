@@ -727,38 +727,25 @@
     <!-- MOBILE QUICK-VIEW BOTTOM DRAWER SHEET -->
     <div class="quickview-overlay" id="quickview-overlay" onclick="app.closeQuickView()"></div>
     <div class="quickview-drawer" id="quickview-drawer">
-        <div class="drawer-drag-line"></div>
         <div class="drawer-header">
             <h3 class="drawer-title" id="qv-title">Product Details</h3>
             <button class="btn-drawer-close" onclick="app.closeQuickView()">×</button>
         </div>
         <div class="drawer-body">
-            <div class="drawer-layout">
-                <div class="drawer-visual">
-                    <img src="" alt="Product View" class="drawer-img" id="qv-img">
-                </div>
-                <div class="drawer-info">
-                    <div class="drawer-rating" id="qv-rating">5.0 ★</div>
-                    <p class="drawer-desc" id="qv-desc">Detailed story of the jewelry piece...</p>
-                    
-                    <h4 class="drawer-sub-heading">CARE INSTRCTIONS</h4>
-                    <p class="drawer-care">Avoid contact with chemical liquids, perfumes, or water spray. Store nestled within our custom velvet packaging boxes to maintain its metallic high-polish sweeps.</p>
- 
-                    <h4 class="drawer-sub-heading">SPECIFICATIONS</h4>
-                    <ul class="drawer-specs-list" id="qv-specs">
-                        <!-- populated dynamically -->
-                    </ul>
- 
-                    <div class="drawer-price-line">
-                        <span class="drawer-price" id="qv-price">Rs.0</span>
-                        <div class="drawer-actions-row" style="display: flex; gap: 10px; align-items: center;">
-                            <button class="btn-drawer-cart" onclick="app.addToCartFromQuickView()" style="background: transparent; border: 1px solid var(--gold); border-radius: 4px; padding: 0.8rem 1.4rem; font-size: 0.7rem; font-family: var(--font-sans); font-weight: 500; letter-spacing: 0.15em; color: var(--gold); transition: var(--transition-fast); cursor: pointer;">
-                                <span>ADD TO CART</span>
-                            </button>
-                            <a href="" target="_blank" class="btn-drawer-submit" id="qv-buy-link" style="display: inline-flex; align-items: center; border: 1px solid var(--gold); border-radius: 4px; padding: 0.8rem 1.8rem; font-size: 0.7rem; font-family: var(--font-sans); font-weight: 500; letter-spacing: 0.15em; color: var(--bg-dark-section); background-color: var(--gold); text-decoration: none; transition: var(--transition-fast);">
-                                <span>BUY NOW</span>
-                            </a>
-                        </div>
+            <div class="drawer-visual" style="width: 100%; height: 200px; border-radius: 6px; overflow: hidden; margin-bottom: 1.2rem;">
+                <img src="" alt="Product View" class="drawer-img" id="qv-img" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="drawer-info" style="display: flex; flex-direction: column; gap: 0.8rem;">
+                <p class="drawer-desc" id="qv-desc" style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin: 0;"></p>
+                <div class="drawer-price-line" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(212, 175, 55, 0.08); padding-top: 1rem; margin-top: 0.5rem;">
+                    <span class="drawer-price" id="qv-price" style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--text-primary);">Rs.0</span>
+                    <div class="drawer-actions-row" style="display: flex; gap: 8px; align-items: center;">
+                        <button class="btn-drawer-cart" onclick="app.addToCartFromQuickView()" style="background: transparent; border: 1px solid var(--gold); border-radius: 4px; padding: 0.7rem 1rem; font-size: 0.65rem; font-family: var(--font-sans); font-weight: 600; letter-spacing: 0.1em; color: var(--gold); transition: var(--transition-fast); cursor: pointer;">
+                            <span>ADD TO CART</span>
+                        </button>
+                        <a href="" target="_blank" class="btn-drawer-submit" id="qv-buy-link" style="display: inline-flex; align-items: center; border: 1px solid var(--gold); border-radius: 4px; padding: 0.7rem 1.2rem; font-size: 0.65rem; font-family: var(--font-sans); font-weight: 600; letter-spacing: 0.1em; color: var(--bg-dark-section); background-color: var(--gold); text-decoration: none; transition: var(--transition-fast);">
+                            <span>BUY NOW</span>
+                        </a>
                     </div>
                 </div>
             </div>

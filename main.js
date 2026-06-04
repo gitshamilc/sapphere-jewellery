@@ -1139,6 +1139,7 @@ class App {
        E-COMMERCE FLOWS - QUICK VIEW BOTTOM DRAWER
        ========================================================================== */
     openQuickView(productId) {
+        this.currentProductId = productId;
         const data = this.productList.find(p => p.id === productId);
         if (!data) return;
 
@@ -1148,41 +1149,8 @@ class App {
         // Populate drawer data
         document.getElementById('qv-title').textContent = data.name;
         document.getElementById('qv-img').src = data.img;
-        document.getElementById('qv-rating').textContent = `${data.rating || '5.0'} ★ (${data.reviews || '10'} reviews)`;
         document.getElementById('qv-desc').textContent = data.description || 'Bespoke SAPPHERE handcrafted jewelry piece.';
         document.getElementById('qv-price').textContent = `Rs.${Number(data.price).toLocaleString('en-IN')}`;
-
-        // Build specifications list dynamically based on category
-        const specsList = document.getElementById('qv-specs');
-        specsList.innerHTML = '';
-        
-        let specs = [];
-        if (data.cat === 'necklace') {
-            specs = [
-                { label: 'CHAIN BASE:', val: '18K Yellow Gold sweep' },
-                { label: 'ADJUSTABLE:', val: '14" to 16" extenders' },
-                { label: 'PACKAGING:', val: 'Burgundy Velvet box' }
-            ];
-        } else if (data.cat === 'earring') {
-            specs = [
-                { label: 'SUITE TYPE:', val: 'Dainty faceted studs/hoops' },
-                { label: 'METAL TYPE:', val: '18K Polished Yellow Gold' },
-                { label: 'FASTENING:', val: 'Hypoallergenic posts' }
-            ];
-        } else {
-            specs = [
-                { label: 'MATERIAL:', val: '18K Solid Gold sweeps' },
-                { label: 'PACKAGING:', val: 'Wine-red velvet casework' },
-                { label: 'CERTIFICATE:', val: 'SAPPHERE Hallmarked Key' }
-            ];
-        }
-
-        specs.forEach(spec => {
-            const li = document.createElement('li');
-            li.className = 'drawer-spec-item';
-            li.innerHTML = `<span class="drawer-spec-lbl">${spec.label}</span> <span class="drawer-spec-val">${spec.val}</span>`;
-            specsList.appendChild(li);
-        });
 
         // Set WhatsApp Checkout URL
         const orderMsg = `Hello SAPPHERE! I am interested in purchasing the ${data.name} (Rs.${Number(data.price).toLocaleString('en-IN')}). Please guide me through checkout.`;
@@ -1197,8 +1165,8 @@ class App {
         drawer.classList.add('active');
         
         gsap.fromTo(drawer, 
-            { y: '100%' }, 
-            { y: '0%', duration: 0.6, ease: 'power4.out' }
+            { y: '-30%', x: '-50%', scale: 0.9, opacity: 0 }, 
+            { y: '-50%', x: '-50%', scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
         );
     }
 
@@ -1207,8 +1175,11 @@ class App {
         const drawer = document.getElementById('quickview-drawer');
 
         gsap.to(drawer, {
-            y: '100%',
-            duration: 0.5,
+            y: '-30%',
+            x: '-50%',
+            scale: 0.9,
+            opacity: 0,
+            duration: 0.3,
             ease: 'power3.in',
             onComplete: () => {
                 overlay.classList.remove('active');
