@@ -13,7 +13,7 @@ create table public.jewelry_products (
   cat           text         not null default 'necklace',
   price         numeric      not null,
   "originalPrice" numeric    default null,
-  desc          text         default '',
+  description   text         default '',
   img           text         default '',
   badge         text         default '',
   rating        text         default '5.0',
@@ -54,7 +54,7 @@ create policy "Public delete jewelry_products"
 -- OR run: alter publication supabase_realtime add table public.jewelry_products;
 
 -- STEP 7: Seed default products
-insert into public.jewelry_products (id, name, cat, price, "originalPrice", desc, img, badge, rating, reviews, featured)
+insert into public.jewelry_products (id, name, cat, price, "originalPrice", description, img, badge, rating, reviews, featured)
 values
   ('flora-bead',       'Flora Bead Choker',         'necklace', 1899, 2099, 'A playful, graceful gold chain adorned with hand-strung multi-colored floral bead charms.',                                           'photosjewewllry/jewelry-01.jpg',   'BESTSELLER',  '4.9', '84',  true),
   ('earring-suite',    'Atelier Earring Suite',      'earring',  2499, 2999, 'Curated suite of three distinct gold earrings: floral studs, double heart hoops, and bamboo hoops.',                                 'photosjewewllry/jewelry-10.jpg',   'LIMITED',     '4.8', '46',  true),
