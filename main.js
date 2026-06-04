@@ -452,19 +452,23 @@ class App {
             targetY: 0.5
         };
 
+        this.cart = [];
+        this.currentProductId = null;
+
         this.init();
     }
 
     async init() {
         this.jewelryEngine = new JewelryEngine('webgl-canvas');
         await this.loadProducts();
+        this.loadCart();
 
         this.runCinematicLoader(() => {
             this.initSmoothScroll();
             this.initScrollAnimations();
             this.initCursorGlows();
             this.initMagneticInteractions();
-            // Initialize scrollâ€‘fade animations for .fade-in elements
+            // Initialize scroll-fade animations for .fade-in elements
             this.initScrollFades();
         });
 
@@ -475,6 +479,7 @@ class App {
                 .channel('public:jewelry_products')
                 .on('postgres_changes', { event: '*', schema: 'public', table: 'jewelry_products' }, async (payload) => {
                     await this.loadProducts();
+                    this.loadCart();
                 })
                 .subscribe();
         }
@@ -510,14 +515,14 @@ class App {
 
         let stored = localStorage.getItem(STORAGE_KEY);
         if (!stored) {
-            // Default luxurious jewelry database
+            // Default luxurious jewelry data
             const defaultProducts = [
                 {
                     id: "flora-bead",
                     name: "Flora Bead Choker",
                     price: 1899,
                     originalPrice: 2099,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.49 PM.jpeg",
+                    img: "photosjewewllry/jewelry-01.jpg",
                     cat: "necklace",
                     badge: "BESTSELLER",
                     description: "A playful, graceful gold chain adorned with hand-strung multi-colored floral bead charms.",
@@ -530,7 +535,7 @@ class App {
                     name: "Atelier Earring Suite",
                     price: 2499,
                     originalPrice: 2999,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.16 PM.jpeg",
+                    img: "photosjewewllry/jewelry-10.jpg",
                     cat: "earring",
                     badge: "LIMITED",
                     description: "Curated suite of three distinct gold earrings: floral studs, double heart hoops, and bamboo hoops.",
@@ -543,7 +548,7 @@ class App {
                     name: "Aura Heart Pendant",
                     price: 1599,
                     originalPrice: 1899,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (1).jpeg",
+                    img: "photosjewewllry/jewelry-05.jpg",
                     cat: "necklace",
                     badge: "ROYAL CHOICE",
                     description: "A classic minimal gold chain holding a polished solid gold heart pendant on a premium display stand.",
@@ -556,7 +561,7 @@ class App {
                     name: "Silken Heart Choker",
                     price: 1699,
                     originalPrice: 1999,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (3).jpeg",
+                    img: "photosjewewllry/jewelry-07.jpg",
                     cat: "necklace",
                     badge: "POPULAR",
                     description: "A delicate hollow gold heart pendant layered elegantly over natural liquid-silk champagne drapery.",
@@ -569,7 +574,7 @@ class App {
                     name: "Royal Layered Necklace",
                     price: 1899,
                     originalPrice: 2099,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.49 PM.jpeg",
+                    img: "photosjewewllry/jewelry-01.jpg",
                     cat: "necklace",
                     badge: "10% OFF",
                     description: "Intricately styled layered necklace blending warm yellow gold bars and custom sweep links.",
@@ -582,7 +587,7 @@ class App {
                     name: "Gold Bead Choker",
                     price: 1499,
                     originalPrice: 1799,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.58 PM.jpeg",
+                    img: "photosjewewllry/jewelry-02.jpg",
                     cat: "necklace",
                     badge: "BESTSELLER",
                     description: "Minimalist elegant gold bead choker, perfect for stacking and everyday elegance.",
@@ -595,7 +600,7 @@ class App {
                     name: "Intimate Pearl Strand",
                     price: 2199,
                     originalPrice: 2499,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.09 PM.jpeg",
+                    img: "photosjewewllry/jewelry-03.jpg",
                     cat: "necklace",
                     badge: "NEW",
                     description: "Elegant genuine pearl strand displaying subtle cream iridescent tones and safe gold locks.",
@@ -608,7 +613,7 @@ class App {
                     name: "Floral Stud Earrings",
                     price: 899,
                     originalPrice: 1059,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (2).jpeg",
+                    img: "photosjewewllry/jewelry-06.jpg",
                     cat: "earring",
                     badge: "15% OFF",
                     description: "Dainty floral stud earrings designed to frame the face with light-catching golden petals.",
@@ -621,7 +626,7 @@ class App {
                     name: "Velvet Gold Bracelet",
                     price: 1299,
                     originalPrice: 1499,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.16 PM (1).jpeg",
+                    img: "photosjewewllry/jewelry-09.jpg",
                     cat: "bracelet",
                     badge: "NEW",
                     description: "Sleek and polished gold bracelet designed with smooth link loops and custom security sweeps.",
@@ -634,7 +639,7 @@ class App {
                     name: "Rose Gold Statement Ring",
                     price: 1199,
                     originalPrice: 1399,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM.jpeg",
+                    img: "photosjewewllry/jewelry-13.jpg",
                     cat: "ring",
                     badge: "TOP RATED",
                     description: "Bold rose gold band ring, hand-polished to capture modern architectural sophistication.",
@@ -647,7 +652,7 @@ class App {
                     name: "Crystal Drop Earrings",
                     price: 999,
                     originalPrice: 1249,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM (1).jpeg",
+                    img: "photosjewewllry/jewelry-11.jpg",
                     cat: "earring",
                     badge: "20% OFF",
                     description: "Dazzling crystal drop earrings that cascade gracefully to add royalty and glamour.",
@@ -660,7 +665,7 @@ class App {
                     name: "Bridal Combo Set",
                     price: 3499,
                     originalPrice: 4199,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM (2).jpeg",
+                    img: "photosjewewllry/jewelry-12.jpg",
                     cat: "set",
                     badge: "COMBO",
                     description: "A rich jewelry suite containing matching royal layered choker and drop studs.",
@@ -673,7 +678,7 @@ class App {
                     name: "Diamond Tennis Bracelet",
                     price: 2799,
                     originalPrice: 3299,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM.jpeg",
+                    img: "photosjewewllry/jewelry-16.jpg",
                     cat: "bracelet",
                     badge: "NEW",
                     description: "Classic high-end tennis bracelet hand-set with highly brilliant sparkling faceted simulated diamonds.",
@@ -686,7 +691,7 @@ class App {
                     name: "Festive Gold Set",
                     price: 2999,
                     originalPrice: 3599,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM (1).jpeg",
+                    img: "photosjewewllry/jewelry-14.jpg",
                     cat: "set",
                     badge: "FESTIVE",
                     description: "Elegant traditional gold-sweep matching choker and bangle set designed for celebrations.",
@@ -699,7 +704,7 @@ class App {
                     name: "Sapphire Luxury Set",
                     price: 4499,
                     originalPrice: 5499,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM (2).jpeg",
+                    img: "photosjewewllry/jewelry-15.jpg",
                     cat: "set",
                     badge: "LUXURY",
                     description: "Our crown jewel masterpiece suite, featuring royal blue sapphires in intricate golden settings.",
@@ -712,7 +717,7 @@ class App {
                     name: "Emerald Solitaire Ring",
                     price: 1899,
                     originalPrice: 2299,
-                    img: "photosjewewllry/WhatsApp Image 2026-05-29 at 6.42.16 PM.jpeg",
+                    img: "photosjewewllry/jewelry-17.jpg",
                     cat: "ring",
                     badge: "TRENDING",
                     description: "A breathtaking solitaire ring showcasing a deep forest green faceted emerald cut gem.",
@@ -743,6 +748,12 @@ class App {
             const card = document.createElement('div');
             card.className = 'product-card glass-card cinematic-card fade-in';
             card.dataset.product = p.id;
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', (e) => {
+                // Prevent quickview if user clicks directly on WhatsApp link
+                if (e.target.closest('.btn-whatsapp-buy')) return;
+                this.openQuickView(p.id);
+            });
 
             const badgeHTML = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
 
@@ -752,14 +763,14 @@ class App {
                     ${badgeHTML}
                 </div>
                 <div class="product-info">
-                    <div class="product-rating">${p.rating || '5.0'} â˜… (${p.reviews || '10'} reviews)</div>
+                    <div class="product-rating">${p.rating || '5.0'} ★ (${p.reviews || '10'} reviews)</div>
                     <h3 class="product-title">${p.name}</h3>
                     <p class="product-excerpt">${p.description || 'Bespoke SAPPHERE handcrafted jewelry piece.'}</p>
                     <div class="product-footer">
-                        <span class="product-price">â‚¹${Number(p.price).toLocaleString('en-IN')}</span>
+                        <span class="product-price">Rs.${Number(p.price).toLocaleString('en-IN')}</span>
                         <div class="product-actions">
-                            <button class="btn-quick-view magnetic-btn" data-strength="6" onclick="app.openQuickView('${p.id}')">Specs</button>
-                            <a href="https://wa.me/918891071849?text=${encodeURIComponent('Hello SAPPHERE! I am interested in purchasing the ' + p.name + ' (â‚¹' + Number(p.price).toLocaleString('en-IN') + '). Please guide me through checkout.')}" target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
+                            <button class="btn-quick-view magnetic-btn" data-strength="6" onclick="event.stopPropagation(); app.openQuickView('${p.id}')">Specs</button>
+                            <a href="https://wa.me/918891071849?text=${encodeURIComponent('Hello SAPPHERE! I am interested in purchasing the ' + p.name + ' (Rs.' + Number(p.price).toLocaleString('en-IN') + '). Please guide me through checkout.')}" target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
                                 <span>BUY NOW</span>
                             </a>
                         </div>
@@ -780,9 +791,15 @@ class App {
             const card = document.createElement('div');
             card.className = 'jcard';
             card.dataset.cat = p.cat || 'necklace';
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', (e) => {
+                // Prevent quickview trigger if user clicks checkout button
+                if (e.target.closest('.jcard-buy-btn')) return;
+                this.openQuickView(p.id);
+            });
 
             const badgeHTML = p.badge ? `<span class="jcard-badge ${getBadgeClass(p.badge)}">${p.badge}</span>` : '';
-            const originalHTML = p.originalPrice ? `<span class="jcard-original">â‚¹${Number(p.originalPrice).toLocaleString('en-IN')}</span>` : '';
+            const originalHTML = p.originalPrice ? `<span class="jcard-original">Rs.${Number(p.originalPrice).toLocaleString('en-IN')}</span>` : '';
 
             card.innerHTML = `
                 <div class="jcard-img-wrap">
@@ -792,12 +809,12 @@ class App {
                 <div class="jcard-body">
                     <p class="jcard-cat">${p.cat || 'Necklace'}</p>
                     <h3 class="jcard-name">${p.name}</h3>
-                    <div class="jcard-stars">â˜…â˜…â˜…â˜…â˜… <span>(${p.reviews || '45'})</span></div>
+                    <div class="jcard-stars">★★★★★ <span>(${p.reviews || '45'})</span></div>
                     <div class="jcard-price-row">
-                        <span class="jcard-price">â‚¹${Number(p.price).toLocaleString('en-IN')}</span>
+                        <span class="jcard-price">Rs.${Number(p.price).toLocaleString('en-IN')}</span>
                         ${originalHTML}
                     </div>
-                    <a href="https://wa.me/918891071849?text=${encodeURIComponent('Hi SAPPHERE! I want to order the ' + p.name + ' - â‚¹' + Number(p.price).toLocaleString('en-IN'))}" target="_blank" class="jcard-buy-btn">ðŸ›’ Buy Now</a>
+                    <a href="https://wa.me/918891071849?text=${encodeURIComponent('Hi SAPPHERE! I want to order the ' + p.name + ' - Rs.' + Number(p.price).toLocaleString('en-IN'))}" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                 </div>
             `;
             grid.appendChild(card);
@@ -867,7 +884,7 @@ class App {
             const progressObj = { value: 0 };
             gsap.to(progressObj, {
                 value: 100,
-                duration: 2.2,
+                duration: 0.6,
                 ease: 'power1.inOut',
                 onUpdate: () => {
                     const percent = Math.floor(progressObj.value);
@@ -1131,9 +1148,9 @@ class App {
         // Populate drawer data
         document.getElementById('qv-title').textContent = data.name;
         document.getElementById('qv-img').src = data.img;
-        document.getElementById('qv-rating').textContent = `${data.rating || '5.0'} â˜… (${data.reviews || '10'} reviews)`;
+        document.getElementById('qv-rating').textContent = `${data.rating || '5.0'} ★ (${data.reviews || '10'} reviews)`;
         document.getElementById('qv-desc').textContent = data.description || 'Bespoke SAPPHERE handcrafted jewelry piece.';
-        document.getElementById('qv-price').textContent = `â‚¹${Number(data.price).toLocaleString('en-IN')}`;
+        document.getElementById('qv-price').textContent = `Rs.${Number(data.price).toLocaleString('en-IN')}`;
 
         // Build specifications list dynamically based on category
         const specsList = document.getElementById('qv-specs');
@@ -1168,7 +1185,7 @@ class App {
         });
 
         // Set WhatsApp Checkout URL
-        const orderMsg = `Hello SAPPHERE! I am interested in purchasing the ${data.name} (â‚¹${Number(data.price).toLocaleString('en-IN')}). Please guide me through checkout.`;
+        const orderMsg = `Hello SAPPHERE! I am interested in purchasing the ${data.name} (Rs.${Number(data.price).toLocaleString('en-IN')}). Please guide me through checkout.`;
         const encMsg = encodeURIComponent(orderMsg);
         document.getElementById('qv-buy-link').href = `https://wa.me/918891071849?text=${encMsg}`;
 
@@ -1246,6 +1263,177 @@ class App {
         const buttons = event.target.parentNode.querySelectorAll('.btn-option');
         buttons.forEach(btn => btn.classList.remove('active'));
         event.target.classList.add('active');
+    }
+
+    /* ==========================================================================
+       CART METHODS
+       ========================================================================== */
+    loadCart() {
+        try {
+            this.cart = JSON.parse(localStorage.getItem('sapphereCart') || '[]');
+        } catch(e) {
+            this.cart = [];
+        }
+        this.updateCartUI();
+    }
+
+    saveCart() {
+        localStorage.setItem('sapphereCart', JSON.stringify(this.cart));
+        this.updateCartUI();
+    }
+
+    addToCart(productId) {
+        const product = this.productList.find(p => p.id === productId);
+        if (!product) return;
+
+        const cartItem = this.cart.find(item => item.id === productId);
+        if (cartItem) {
+            cartItem.quantity += 1;
+        } else {
+            this.cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                img: product.img,
+                quantity: 1
+            });
+        }
+        this.saveCart();
+        this.openCart();
+    }
+
+    addToCartFromQuickView() {
+        if (this.currentProductId) {
+            this.addToCart(this.currentProductId);
+            this.closeQuickView();
+        }
+    }
+
+    updateCartQuantity(productId, delta) {
+        const cartItem = this.cart.find(item => item.id === productId);
+        if (cartItem) {
+            cartItem.quantity += delta;
+            if (cartItem.quantity <= 0) {
+                this.removeFromCart(productId);
+                return;
+            }
+        }
+        this.saveCart();
+    }
+
+    removeFromCart(productId) {
+        this.cart = this.cart.filter(item => item.id !== productId);
+        this.saveCart();
+    }
+
+    openCart() {
+        const overlay = document.getElementById('cart-overlay');
+        const drawer = document.getElementById('cart-drawer');
+        if (!overlay || !drawer) return;
+
+        if (this.lenis) this.lenis.stop();
+
+        overlay.classList.add('active');
+        drawer.classList.add('active');
+
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+            gsap.fromTo(drawer, { y: '100%' }, { y: '0%', duration: 0.6, ease: 'power4.out' });
+        } else {
+            gsap.fromTo(drawer, { x: '100%' }, { x: '0%', duration: 0.6, ease: 'power4.out' });
+        }
+    }
+
+    closeCart() {
+        const overlay = document.getElementById('cart-overlay');
+        const drawer = document.getElementById('cart-drawer');
+        if (!overlay || !drawer) return;
+
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+            gsap.to(drawer, {
+                y: '100%',
+                duration: 0.5,
+                ease: 'power3.in',
+                onComplete: () => {
+                    overlay.classList.remove('active');
+                    drawer.classList.remove('active');
+                    if (this.lenis) this.lenis.start();
+                }
+            });
+        } else {
+            gsap.to(drawer, {
+                x: '100%',
+                duration: 0.5,
+                ease: 'power3.in',
+                onComplete: () => {
+                    overlay.classList.remove('active');
+                    drawer.classList.remove('active');
+                    if (this.lenis) this.lenis.start();
+                }
+            });
+        }
+    }
+
+    updateCartUI() {
+        const count = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+        const countBadge = document.getElementById('cart-count');
+        const countBadgeMobile = document.getElementById('cart-count-mobile');
+        if (countBadge) countBadge.textContent = count;
+        if (countBadgeMobile) countBadgeMobile.textContent = count;
+
+        const container = document.getElementById('cart-items-container');
+        if (!container) return;
+
+        container.innerHTML = '';
+        if (this.cart.length === 0) {
+            container.innerHTML = '<div class="cart-empty-text">Your cart is empty. Explore our pieces to add items.</div>';
+            document.getElementById('cart-total-price').textContent = 'Rs.0';
+            return;
+        }
+
+        let total = 0;
+        this.cart.forEach(item => {
+            total += item.price * item.quantity;
+            const itemEl = document.createElement('div');
+            itemEl.className = 'cart-item';
+            itemEl.innerHTML = `
+                <div class="cart-item-img-wrap">
+                    <img src="${item.img}" alt="${item.name}" class="cart-item-img">
+                </div>
+                <div class="cart-item-info">
+                    <h4 class="cart-item-name" style="margin:0; font-size:0.9rem; font-family:var(--font-serif);">${item.name}</h4>
+                    <div class="cart-item-price" style="margin:0.2rem 0; font-size:0.8rem; color:var(--gold);">Rs.${Number(item.price).toLocaleString('en-IN')}</div>
+                    <div style="margin-top: 0.5rem; display: flex; align-items: center; justify-content: space-between;">
+                        <div class="cart-item-controls">
+                            <button class="cart-qty-btn" onclick="app.updateCartQuantity('${item.id}', -1)">-</button>
+                            <span class="cart-qty-num">${item.quantity}</span>
+                            <button class="cart-qty-btn" onclick="app.updateCartQuantity('${item.id}', 1)">+</button>
+                        </div>
+                        <button class="cart-remove-btn" onclick="app.removeFromCart('${item.id}')">Remove</button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(itemEl);
+        });
+
+        document.getElementById('cart-total-price').textContent = `Rs.${Number(total).toLocaleString('en-IN')}`;
+    }
+
+    checkoutCart() {
+        if (this.cart.length === 0) return;
+
+        let total = 0;
+        let summary = "Hello SAPPHERE! I would like to place an order for the following items:\n\n";
+        this.cart.forEach((item, idx) => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            summary += `${idx + 1}. ${item.name} x ${item.quantity} (Rs.${Number(itemTotal).toLocaleString('en-IN')})\n`;
+        });
+
+        summary += `\nTotal: Rs.${Number(total).toLocaleString('en-IN')}\n\nPlease guide me through checkout.`;
+        const encMsg = encodeURIComponent(summary);
+        window.open(`https://wa.me/918891071849?text=${encMsg}`, '_blank');
     }
 
     /* ==========================================================================

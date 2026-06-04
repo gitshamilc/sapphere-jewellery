@@ -88,10 +88,17 @@
             </nav>
             <div class="nav-actions">
                 <a href="/admin/login" class="nav-link admin-desktop-link" style="margin-right: 1.5rem; font-size: 0.75rem; letter-spacing: 0.15em; font-weight: 600; color: var(--gold);">ADMIN</a>
+                <button class="nav-link cart-desktop-link" onclick="app.openCart()" style="background: none; border: none; margin-right: 1.5rem; font-size: 0.75rem; letter-spacing: 0.15em; font-weight: 600; color: var(--gold); display: flex; align-items: center; gap: 4px; cursor: pointer;">
+                    🛒 CART (<span id="cart-count">0</span>)
+                </button>
                 <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%2C%20I%20would%20like%20to%20inquire%20about%20your%20custom%20jewelry%20design%20services." target="_blank" class="btn-menu magnetic-btn" data-strength="15">
                     <span>WHATSAPP CHAT</span>
                 </a>
             </div>
+            
+            <button class="cart-mobile-btn" onclick="app.openCart()" style="background: none; border: none; font-size: 1rem; color: var(--gold); display: flex; align-items: center; gap: 4px; margin-right: 1rem; cursor: pointer; z-index: 101;">
+                🛒 (<span id="cart-count-mobile">0</span>)
+            </button>
             
             <!-- Mobile Toggle Button -->
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu" onclick="toggleMobileMenu()">
@@ -165,7 +172,7 @@
                     <!-- Product 1: Flora Bead Choker -->
                     <div class="product-card glass-card cinematic-card" data-product="flora-bead">
                         <div class="product-visual">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.49 PM.jpeg" alt="Flora Bead Choker" class="product-img">
+                            <img src="photosjewewllry/jewelry-01.jpg" alt="Flora Bead Choker" class="product-img">
                             <span class="product-badge">BESTSELLER</span>
                         </div>
                         <div class="product-info">
@@ -173,10 +180,10 @@
                             <h3 class="product-title">Flora Bead Choker</h3>
                             <p class="product-excerpt">A playful, graceful gold chain adorned with hand-strung multi-colored floral bead charms.</p>
                             <div class="product-footer">
-                                <span class="product-price">₹1,899</span>
+                                <span class="product-price">Rs.1,899</span>
                                 <div class="product-actions">
                                     <button class="btn-quick-view magnetic-btn" data-strength="6" onclick="app.openQuickView('flora-bead')">Specs</button>
-                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Flora%20Bead%20Choker%20(%E2%82%B91%2C899).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
+                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Flora%20Bead%20Choker%20(Rs.1%2C899).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
                                         <span>BUY NOW</span>
                                     </a>
                                 </div>
@@ -187,7 +194,7 @@
                     <!-- Product 2: Atelier Earring Suite -->
                     <div class="product-card glass-card cinematic-card" data-product="earring-suite">
                         <div class="product-visual">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.16 PM.jpeg" alt="Atelier Earring Suite" class="product-img">
+                            <img src="photosjewewllry/jewelry-10.jpg" alt="Atelier Earring Suite" class="product-img">
                             <span class="product-badge">LIMITED</span>
                         </div>
                         <div class="product-info">
@@ -195,10 +202,10 @@
                             <h3 class="product-title">Atelier Earring Suite</h3>
                             <p class="product-excerpt">Curated suite of three distinct gold earrings: floral studs, double heart hoops, and bamboo hoops.</p>
                             <div class="product-footer">
-                                <span class="product-price">₹2,499</span>
+                                <span class="product-price">Rs.2,499</span>
                                 <div class="product-actions">
                                     <button class="btn-quick-view magnetic-btn" data-strength="6" onclick="app.openQuickView('earring-suite')">Specs</button>
-                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Atelier%20Earring%20Suite%20(%E2%82%B92%2C499).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
+                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Atelier%20Earring%20Suite%20(Rs.2%2C499).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
                                         <span>BUY NOW</span>
                                     </a>
                                 </div>
@@ -209,7 +216,7 @@
                     <!-- Product 3: Aura Heart Pendant -->
                     <div class="product-card glass-card cinematic-card" data-product="aura-heart">
                         <div class="product-visual">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (1).jpeg" alt="Aura Heart Pendant" class="product-img">
+                            <img src="photosjewewllry/jewelry-05.jpg" alt="Aura Heart Pendant" class="product-img">
                             <span class="product-badge">ROYAL CHOICE</span>
                         </div>
                         <div class="product-info">
@@ -217,10 +224,10 @@
                             <h3 class="product-title">Aura Heart Pendant</h3>
                             <p class="product-excerpt">A classic minimal gold chain holding a polished solid gold heart pendant on a premium display stand.</p>
                             <div class="product-footer">
-                                <span class="product-price">₹1,599</span>
+                                <span class="product-price">Rs.1,599</span>
                                 <div class="product-actions">
                                     <button class="btn-quick-view magnetic-btn" data-strength="6" onclick="app.openQuickView('aura-heart')">Specs</button>
-                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Aura%20Heart%20Pendant%20(%E2%82%B91%2C599).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
+                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Aura%20Heart%20Pendant%20(Rs.1%2C599).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
                                         <span>BUY NOW</span>
                                     </a>
                                 </div>
@@ -231,7 +238,7 @@
                     <!-- Product 4: Silken Heart Choker -->
                     <div class="product-card glass-card cinematic-card" data-product="silken-heart">
                         <div class="product-visual">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (3).jpeg" alt="Silken Heart Choker" class="product-img">
+                            <img src="photosjewewllry/jewelry-07.jpg" alt="Silken Heart Choker" class="product-img">
                             <span class="product-badge">POPULAR</span>
                         </div>
                         <div class="product-info">
@@ -239,10 +246,10 @@
                             <h3 class="product-title">Silken Heart Choker</h3>
                             <p class="product-excerpt">A delicate hollow gold heart pendant layered elegantly over natural liquid-silk champagne drapery.</p>
                             <div class="product-footer">
-                                <span class="product-price">₹1,699</span>
+                                <span class="product-price">Rs.1,699</span>
                                 <div class="product-actions">
                                     <button class="btn-quick-view magnetic-btn" data-strength="6" onclick="app.openQuickView('silken-heart')">Specs</button>
-                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Silken%20Heart%20Choker%20(%E2%82%B91%2C699).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
+                                    <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%21%20I%20am%20interested%20in%20purchasing%20the%20Silken%20Heart%20Choker%20(Rs.1%2C699).%20Please%20guide%20me%20through%20checkout." target="_blank" class="btn-whatsapp-buy magnetic-btn" data-strength="10">
                                         <span>BUY NOW</span>
                                     </a>
                                 </div>
@@ -269,15 +276,13 @@
                     <button class="jewel-filter-btn" data-filter="bracelet" onclick="filterJewels(this,'bracelet')">Bracelets</button>
                     <button class="jewel-filter-btn" data-filter="ring" onclick="filterJewels(this,'ring')">Rings</button>
                     <button class="jewel-filter-btn" data-filter="set" onclick="filterJewels(this,'set')">Sets</button>
-                </div>
-
-                <!-- Jewels Product Grid -->
+                   <!-- Jewels Product Grid -->
                 <div class="jewels-grid" id="jewels-grid">
 
                     <!-- Card 1 -->
                     <div class="jcard" data-cat="necklace">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.49 PM.jpeg" alt="Royal Layered Necklace" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-01.jpg" alt="Royal Layered Necklace" class="jcard-img" loading="lazy">
                             <span class="jcard-badge sale">10% OFF</span>
                         </div>
                         <div class="jcard-body">
@@ -285,17 +290,17 @@
                             <h3 class="jcard-name">Royal Layered Necklace</h3>
                             <div class="jcard-stars">★★★★★ <span>(128)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹1,899</span>
-                                <span class="jcard-original">₹2,099</span>
+                                <span class="jcard-price">Rs.1,899</span>
+                                <span class="jcard-original">Rs.2,099</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Royal%20Layered%20Necklace%20-%20%E2%82%B91%2C899" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Royal%20Layered%20Necklace%20-%20Rs.1%2C899" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 2 -->
                     <div class="jcard" data-cat="necklace">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.41.58 PM.jpeg" alt="Gold Bead Choker" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-02.jpg" alt="Gold Bead Choker" class="jcard-img" loading="lazy">
                             <span class="jcard-badge bestseller">BESTSELLER</span>
                         </div>
                         <div class="jcard-body">
@@ -303,17 +308,17 @@
                             <h3 class="jcard-name">Gold Bead Choker</h3>
                             <div class="jcard-stars">★★★★★ <span>(84)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹1,499</span>
-                                <span class="jcard-original">₹1,799</span>
+                                <span class="jcard-price">Rs.1,499</span>
+                                <span class="jcard-original">Rs.1,799</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Gold%20Bead%20Choker%20-%20%E2%82%B91%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Gold%20Bead%20Choker%20-%20Rs.1%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 3 -->
                     <div class="jcard" data-cat="necklace">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.09 PM.jpeg" alt="Intimate Pearl Strand" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-03.jpg" alt="Intimate Pearl Strand" class="jcard-img" loading="lazy">
                             <span class="jcard-badge new">NEW</span>
                         </div>
                         <div class="jcard-body">
@@ -321,17 +326,17 @@
                             <h3 class="jcard-name">Intimate Pearl Strand</h3>
                             <div class="jcard-stars">★★★★☆ <span>(56)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹2,199</span>
-                                <span class="jcard-original">₹2,499</span>
+                                <span class="jcard-price">Rs.2,199</span>
+                                <span class="jcard-original">Rs.2,499</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Intimate%20Pearl%20Strand%20-%20%E2%82%B92%2C199" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Intimate%20Pearl%20Strand%20-%20Rs.2%2C199" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 4 -->
                     <div class="jcard" data-cat="necklace">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (1).jpeg" alt="Aura Heart Pendant" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-05.jpg" alt="Aura Heart Pendant" class="jcard-img" loading="lazy">
                             <span class="jcard-badge bestseller">ROYAL CHOICE</span>
                         </div>
                         <div class="jcard-body">
@@ -339,17 +344,17 @@
                             <h3 class="jcard-name">Aura Heart Pendant</h3>
                             <div class="jcard-stars">★★★★★ <span>(112)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹1,599</span>
-                                <span class="jcard-original">₹1,899</span>
+                                <span class="jcard-price">Rs.1,599</span>
+                                <span class="jcard-original">Rs.1,899</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Aura%20Heart%20Pendant%20-%20%E2%82%B91%2C599" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Aura%20Heart%20Pendant%20-%20Rs.1%2C599" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 5 -->
                     <div class="jcard" data-cat="earring">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (2).jpeg" alt="Floral Stud Earrings" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-06.jpg" alt="Floral Stud Earrings" class="jcard-img" loading="lazy">
                             <span class="jcard-badge sale">15% OFF</span>
                         </div>
                         <div class="jcard-body">
@@ -357,17 +362,17 @@
                             <h3 class="jcard-name">Floral Stud Earrings</h3>
                             <div class="jcard-stars">★★★★★ <span>(203)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹899</span>
-                                <span class="jcard-original">₹1,059</span>
+                                <span class="jcard-price">Rs.899</span>
+                                <span class="jcard-original">Rs.1,059</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Floral%20Stud%20Earrings%20-%20%E2%82%B9899" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Floral%20Stud%20Earrings%20-%20Rs.899" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 6 -->
                     <div class="jcard" data-cat="necklace">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.13 PM (3).jpeg" alt="Silken Heart Choker" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-07.jpg" alt="Silken Heart Choker" class="jcard-img" loading="lazy">
                             <span class="jcard-badge bestseller">POPULAR</span>
                         </div>
                         <div class="jcard-body">
@@ -375,17 +380,17 @@
                             <h3 class="jcard-name">Silken Heart Choker</h3>
                             <div class="jcard-stars">★★★★★ <span>(73)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹1,699</span>
-                                <span class="jcard-original">₹1,999</span>
+                                <span class="jcard-price">Rs.1,699</span>
+                                <span class="jcard-original">Rs.1,999</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Silken%20Heart%20Choker%20-%20%E2%82%B91%2C699" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Silken%20Heart%20Choker%20-%20Rs.1%2C699" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 7 -->
                     <div class="jcard" data-cat="earring">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.16 PM.jpeg" alt="Atelier Earring Suite" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-10.jpg" alt="Atelier Earring Suite" class="jcard-img" loading="lazy">
                             <span class="jcard-badge sale">LIMITED</span>
                         </div>
                         <div class="jcard-body">
@@ -393,17 +398,17 @@
                             <h3 class="jcard-name">Atelier Earring Suite</h3>
                             <div class="jcard-stars">★★★★★ <span>(46)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹2,499</span>
-                                <span class="jcard-original">₹2,999</span>
+                                <span class="jcard-price">Rs.2,499</span>
+                                <span class="jcard-original">Rs.2,999</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Atelier%20Earring%20Suite%20-%20%E2%82%B92%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Atelier%20Earring%20Suite%20-%20Rs.2%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 8 -->
                     <div class="jcard" data-cat="bracelet">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.16 PM (1).jpeg" alt="Velvet Gold Bracelet" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-09.jpg" alt="Velvet Gold Bracelet" class="jcard-img" loading="lazy">
                             <span class="jcard-badge new">NEW</span>
                         </div>
                         <div class="jcard-body">
@@ -411,17 +416,17 @@
                             <h3 class="jcard-name">Velvet Gold Bracelet</h3>
                             <div class="jcard-stars">★★★★☆ <span>(37)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹1,299</span>
-                                <span class="jcard-original">₹1,499</span>
+                                <span class="jcard-price">Rs.1,299</span>
+                                <span class="jcard-original">Rs.1,499</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Velvet%20Gold%20Bracelet%20-%20%E2%82%B91%2C299" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Velvet%20Gold%20Bracelet%20-%20Rs.1%2C299" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 9 -->
                     <div class="jcard" data-cat="ring">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM.jpeg" alt="Rose Gold Ring" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-13.jpg" alt="Rose Gold Ring" class="jcard-img" loading="lazy">
                             <span class="jcard-badge bestseller">TOP RATED</span>
                         </div>
                         <div class="jcard-body">
@@ -429,17 +434,17 @@
                             <h3 class="jcard-name">Rose Gold Statement Ring</h3>
                             <div class="jcard-stars">★★★★★ <span>(91)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹1,199</span>
-                                <span class="jcard-original">₹1,399</span>
+                                <span class="jcard-price">Rs.1,199</span>
+                                <span class="jcard-original">Rs.1,399</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Rose%20Gold%20Statement%20Ring%20-%20%E2%82%B91%2C199" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Rose%20Gold%20Statement%20Ring%20-%20Rs.1%2C199" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 10 -->
                     <div class="jcard" data-cat="earring">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM (1).jpeg" alt="Crystal Drop Earrings" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-11.jpg" alt="Crystal Drop Earrings" class="jcard-img" loading="lazy">
                             <span class="jcard-badge sale">20% OFF</span>
                         </div>
                         <div class="jcard-body">
@@ -447,17 +452,17 @@
                             <h3 class="jcard-name">Crystal Drop Earrings</h3>
                             <div class="jcard-stars">★★★★★ <span>(165)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹999</span>
-                                <span class="jcard-original">₹1,249</span>
+                                <span class="jcard-price">Rs.999</span>
+                                <span class="jcard-original">Rs.1,249</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20Crystal%20Drop%20Earrings%20-%20%E2%82%B9999" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20Crystal%20Drop%20Earrings%20-%20Rs.999" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 11 -->
                     <div class="jcard" data-cat="set">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM (2).jpeg" alt="Bridal Combo Set" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-12.jpg" alt="Bridal Combo Set" class="jcard-img" loading="lazy">
                             <span class="jcard-badge bestseller">COMBO</span>
                         </div>
                         <div class="jcard-body">
@@ -465,17 +470,17 @@
                             <h3 class="jcard-name">Bridal Combo Set</h3>
                             <div class="jcard-stars">★★★★★ <span>(52)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹3,499</span>
-                                <span class="jcard-original">₹4,199</span>
+                                <span class="jcard-price">Rs.3,499</span>
+                                <span class="jcard-original">Rs.4,199</span>
                             </div>
-                            <a href="https://wa.me/9037411849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Bridal%20Combo%20Set%20-%20%E2%82%B93%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/9037411849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Bridal%20Combo%20Set%20-%20Rs.3%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 12 -->
                     <div class="jcard" data-cat="bracelet">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM.jpeg" alt="Diamond Tennis Bracelet" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-16.jpg" alt="Diamond Tennis Bracelet" class="jcard-img" loading="lazy">
                             <span class="jcard-badge new">NEW</span>
                         </div>
                         <div class="jcard-body">
@@ -483,17 +488,17 @@
                             <h3 class="jcard-name">Diamond Tennis Bracelet</h3>
                             <div class="jcard-stars">★★★★★ <span>(44)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹2,799</span>
-                                <span class="jcard-original">₹3,299</span>
+                                <span class="jcard-price">Rs.2,799</span>
+                                <span class="jcard-original">Rs.3,299</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Diamond%20Tennis%20Bracelet%20-%20%E2%82%B92%2C799" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Diamond%20Tennis%20Bracelet%20-%20Rs.2%2C799" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 13 -->
                     <div class="jcard" data-cat="set">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM (1).jpeg" alt="Festive Gold Set" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-14.jpg" alt="Festive Gold Set" class="jcard-img" loading="lazy">
                             <span class="jcard-badge sale">FESTIVE</span>
                         </div>
                         <div class="jcard-body">
@@ -501,17 +506,17 @@
                             <h3 class="jcard-name">Festive Gold Set</h3>
                             <div class="jcard-stars">★★★★☆ <span>(68)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹2,999</span>
-                                <span class="jcard-original">₹3,599</span>
+                                <span class="jcard-price">Rs.2,999</span>
+                                <span class="jcard-original">Rs.3,599</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Festive%20Gold%20Set%20-%20%E2%82%B92%2C999" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Festive%20Gold%20Set%20-%20Rs.2%2C999" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 14 -->
                     <div class="jcard" data-cat="set">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.18 PM (2).jpeg" alt="Sapphire Luxury Set" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-15.jpg" alt="Sapphire Luxury Set" class="jcard-img" loading="lazy">
                             <span class="jcard-badge bestseller">LUXURY</span>
                         </div>
                         <div class="jcard-body">
@@ -519,17 +524,17 @@
                             <h3 class="jcard-name">Sapphire Luxury Set</h3>
                             <div class="jcard-stars">★★★★★ <span>(31)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹4,499</span>
-                                <span class="jcard-original">₹5,499</span>
+                                <span class="jcard-price">Rs.4,499</span>
+                                <span class="jcard-original">Rs.5,499</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Sapphire%20Luxury%20Set%20-%20%E2%82%B94%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Sapphire%20Luxury%20Set%20-%20Rs.4%2C499" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
                     <!-- Card 15 -->
                     <div class="jcard" data-cat="ring">
                         <div class="jcard-img-wrap">
-                            <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 6.42.16 PM.jpeg" alt="Emerald Solitaire Ring" class="jcard-img" loading="lazy">
+                            <img src="photosjewewllry/jewelry-17.jpg" alt="Emerald Solitaire Ring" class="jcard-img" loading="lazy">
                             <span class="jcard-badge new">TRENDING</span>
                         </div>
                         <div class="jcard-body">
@@ -537,10 +542,10 @@
                             <h3 class="jcard-name">Emerald Solitaire Ring</h3>
                             <div class="jcard-stars">★★★★★ <span>(77)</span></div>
                             <div class="jcard-price-row">
-                                <span class="jcard-price">₹1,899</span>
-                                <span class="jcard-original">₹2,299</span>
+                                <span class="jcard-price">Rs.1,899</span>
+                                <span class="jcard-original">Rs.2,299</span>
                             </div>
-                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Emerald%20Solitaire%20Ring%20-%20%E2%82%B91%2C899" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
+                            <a href="https://wa.me/918891071849?text=Hi%20SAPPHERE!%20I%20want%20to%20order%20the%20Emerald%20Solitaire%20Ring%20-%20Rs.1%2C899" target="_blank" class="jcard-buy-btn">🛒 Buy Now</a>
                         </div>
                     </div>
 
@@ -570,7 +575,7 @@
                 </div>
                 <div class="heritage-visual">
                     <div class="glass-card cinematic-card" id="heritage-card">
-                        <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.09 PM.jpeg" alt="SAPPHERE Story Visual" class="heritage-inner-img">
+                        <img src="photosjewewllry/jewelry-03.jpg" alt="SAPPHERE Story Visual" class="heritage-inner-img">
                         <div class="glass-card-content">
                             <span class="card-num">02</span>
                             <h3 class="card-title">Intimate Grace</h3>
@@ -697,7 +702,7 @@
             <div class="chat-card-header">
                 <div class="chat-avatar-group">
                     <div class="chat-avatar-status"></div>
-                    <img src="photosjewewllry/WhatsApp Image 2026-05-29 at 5.42.17 PM.jpeg" alt="Boutique Assistant" class="chat-avatar-img">
+                    <img src="photosjewewllry/jewelry-13.jpg" alt="Boutique Assistant" class="chat-avatar-img">
                 </div>
                 <div class="chat-brand-info">
                     <span class="chat-brand-name">SAPPHERE Boutique</span>
@@ -738,19 +743,48 @@
                     
                     <h4 class="drawer-sub-heading">CARE INSTRCTIONS</h4>
                     <p class="drawer-care">Avoid contact with chemical liquids, perfumes, or water spray. Store nestled within our custom velvet packaging boxes to maintain its metallic high-polish sweeps.</p>
-
+ 
                     <h4 class="drawer-sub-heading">SPECIFICATIONS</h4>
                     <ul class="drawer-specs-list" id="qv-specs">
                         <!-- populated dynamically -->
                     </ul>
-
+ 
                     <div class="drawer-price-line">
-                        <span class="drawer-price" id="qv-price">₹0</span>
-                        <a href="" target="_blank" class="btn-drawer-submit" id="qv-buy-link">
-                            <span>ORDER VIA WHATSAPP</span>
-                        </a>
+                        <span class="drawer-price" id="qv-price">Rs.0</span>
+                        <div class="drawer-actions-row" style="display: flex; gap: 10px; align-items: center;">
+                            <button class="btn-drawer-cart" onclick="app.addToCartFromQuickView()" style="background: transparent; border: 1px solid var(--gold); border-radius: 4px; padding: 0.8rem 1.4rem; font-size: 0.7rem; font-family: var(--font-sans); font-weight: 500; letter-spacing: 0.15em; color: var(--gold); transition: var(--transition-fast); cursor: pointer;">
+                                <span>ADD TO CART</span>
+                            </button>
+                            <a href="" target="_blank" class="btn-drawer-submit" id="qv-buy-link" style="display: inline-flex; align-items: center; border: 1px solid var(--gold); border-radius: 4px; padding: 0.8rem 1.8rem; font-size: 0.7rem; font-family: var(--font-sans); font-weight: 500; letter-spacing: 0.15em; color: var(--bg-dark-section); background-color: var(--gold); text-decoration: none; transition: var(--transition-fast);">
+                                <span>BUY NOW</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHOPPING CART Drawer (Right sliding panel on desktop, bottom drawer on mobile) -->
+    <div class="cart-overlay" id="cart-overlay" onclick="app.closeCart()"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="drawer-drag-line"></div>
+        <div class="drawer-header">
+            <h3 class="drawer-title">Shopping Cart</h3>
+            <button class="btn-drawer-close" onclick="app.closeCart()">×</button>
+        </div>
+        <div class="drawer-body">
+            <div class="cart-items-container" id="cart-items-container">
+                <!-- populated dynamically -->
+            </div>
+            <div class="cart-summary-line" style="border-top: 1px solid rgba(212, 175, 55, 0.08); padding-top: 1.5rem; margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <span class="cart-total-label" style="font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.1em; color: var(--text-secondary);">SUBTOTAL:</span>
+                <span class="cart-total-price" id="cart-total-price" style="font-family: var(--font-serif); font-size: 1.6rem; color: var(--gold);">Rs.0</span>
+            </div>
+            <div class="cart-action-btn-row" style="margin-top: 1.5rem;">
+                <button class="btn-drawer-submit" id="cart-checkout-btn" onclick="app.checkoutCart()" style="width: 100%; display: flex; justify-content: center; align-items: center; border: 1px solid var(--gold); border-radius: 4px; padding: 0.9rem; font-size: 0.75rem; font-family: var(--font-sans); font-weight: 600; letter-spacing: 0.15em; color: var(--bg-dark-section); background-color: var(--gold); text-decoration: none; cursor: pointer; transition: var(--transition-fast);">
+                    <span>CHECKOUT VIA WHATSAPP</span>
+                </button>
             </div>
         </div>
     </div>
