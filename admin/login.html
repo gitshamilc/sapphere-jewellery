@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SAPPHERE — Merchant Sign In</title>
   <link rel="stylesheet" href="admin.css">
+  <script src="../config.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="login-body">
@@ -43,22 +44,102 @@
     </div>
   </div>
 
-  <script>
-    const creds = { id: "sapphere", pass: "sapphere@321" };
-    document.getElementById('login-form').addEventListener('submit', e => {
+  <script type="module">
+    import { supabase } from "../supabase/client.js";
+
+    const localCreds = { id: "sapphere", pass: "sapphere@321" };
+    
+    // Check if Supabase client is active
+    const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && window.CONFIG.SUPABASE_URL && window.CONFIG.SUPABASE_ANON_KEY && supabase !== null;
+
+    document.getElementById('login-form').addEventListener('submit', async e => {
       e.preventDefault();
-      const uid = document.getElementById('userid').value.trim();
+      
+      const usernameInput = document.getElementById('userid').value.trim();
       const pwd = document.getElementById('password').value;
       const errorDiv = document.getElementById('login-error');
+      const submitBtn = e.target.querySelector('.auth-btn');
       
-      if (uid === creds.id && pwd === creds.pass) {
-        sessionStorage.setItem('adminAuth', 'true');
-        location.href = '/admin/panel';
+      // Visual feedback: disable button and show authenticating state
+      const originalBtnHTML = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-ring" style="width:14px; height:14px; display:inline-block; border:2px solid #fff; border-top-color:transparent; border-radius:50%; animation:spin 0.8s linear infinite; margin-right:8px; vertical-align:middle;"></span> Authenticating...';
+      
+      errorDiv.style.display = 'none';
+
+      if (isSupabaseConfigured) {
+        // Map simple username to structured email for Supabase Auth
+        let email = usernameInput;
+        if (!email.includes('@')) {
+          email = email === 'sapphere' ? 'admin@sapphere.com' : `${email}@sapphere.com`;
+        }
+
+        try {
+          // 1. Try to sign in
+          let { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: pwd
+          });
+
+          // 2. Auto-provision admin user if they are logging in for the first time
+          if (error && error.message.toLowerCase().includes("invalid login credentials")) {
+            if (usernameInput === 'sapphere' && pwd === 'sapphere@321') {
+              // Sign up default admin user
+              const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+                email: email,
+                password: pwd
+              });
+
+              if (!signUpError) {
+                // Retry sign in
+                const retry = await supabase.auth.signInWithPassword({
+                  email: email,
+                  password: pwd
+                });
+                data = retry.data;
+                error = retry.error;
+              } else {
+                console.error("Auto-provisioning failed:", signUpError.message);
+              }
+            }
+          }
+
+          if (!error && data.user) {
+            sessionStorage.setItem('adminAuth', 'true');
+            location.href = 'panel.html';
+          } else {
+            console.error("Auth error:", error ? error.message : "Unknown error");
+            errorDiv.textContent = error ? error.message : "Authentication failed.";
+            errorDiv.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnHTML;
+          }
+        } catch (err) {
+          console.error(err);
+          errorDiv.textContent = "Server connection error. Please try again.";
+          errorDiv.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHTML;
+        }
       } else {
-        errorDiv.style.display = 'block';
+        // Local offline fallback mode
+        if (usernameInput === localCreds.id && pwd === localCreds.pass) {
+          sessionStorage.setItem('adminAuth', 'true');
+          location.href = 'panel.html';
+        } else {
+          errorDiv.textContent = "Incorrect username or password.";
+          errorDiv.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHTML;
+        }
       }
     });
     
+    // Add simple animation styles for spinner
+    const style = document.createElement('style');
+    style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+    document.head.appendChild(style);
+
     // Initialize Lucide icons
     lucide.createIcons();
   </script>

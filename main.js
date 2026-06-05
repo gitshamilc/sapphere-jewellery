@@ -787,10 +787,20 @@ class App {
 
         grid.innerHTML = '';
 
+        // Get currently active category filter to maintain selection on updates
+        const activeBtn = document.querySelector('.jewel-filter-btn.active');
+        const activeCat = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+
         this.productList.forEach(p => {
             const card = document.createElement('div');
             card.className = 'jcard';
             card.dataset.cat = p.cat || 'necklace';
+            
+            const match = activeCat === 'all' || (p.cat || 'necklace') === activeCat;
+            if (!match) {
+                card.classList.add('hidden');
+            }
+
             card.style.cursor = 'pointer';
             card.addEventListener('click', (e) => {
                 // Prevent quickview trigger if user clicks checkout button

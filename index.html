@@ -14,11 +14,19 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css?v=7">
     
+    <!-- Preload LCP Asset -->
+    <link rel="preload" href="assets/hero_jewelry_1780120010207.jpg" as="image">
+    
+    <!-- Preload ES Modules to avoid waterfall delay -->
+    <link rel="modulepreload" href="main.js?v=7">
+    <link rel="modulepreload" href="supabase/client.js">
+    <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.4/+esm">
+    
     <!-- CDNs: Three.js, GSAP, ScrollTrigger, Lenis -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js" defer></script>
 
     <!-- Safety Fallback: Force-hide loader after 9s if JS crashes -->
     <script>
@@ -87,7 +95,7 @@
                 <a href="#trust" class="nav-link">TRUST</a>
             </nav>
             <div class="nav-actions">
-                <a href="/admin/login" class="nav-link admin-desktop-link" style="margin-right: 1.5rem; font-size: 0.75rem; letter-spacing: 0.15em; font-weight: 600; color: var(--gold);">ADMIN</a>
+                <a href="admin/login.html" class="nav-link admin-desktop-link" style="margin-right: 1.5rem; font-size: 0.75rem; letter-spacing: 0.15em; font-weight: 600; color: var(--gold);">ADMIN</a>
                 <button class="nav-link cart-desktop-link" onclick="app.openCart()" style="background: none; border: none; margin-right: 1.5rem; font-size: 0.75rem; letter-spacing: 0.15em; font-weight: 600; color: var(--gold); display: flex; align-items: center; gap: 4px; cursor: pointer;">
                     🛒 CART (<span id="cart-count">0</span>)
                 </button>
@@ -115,7 +123,7 @@
                 <a href="#store" class="mobile-nav-link" onclick="toggleMobileMenu()">EXPLORE</a>
                 <a href="#heritage" class="mobile-nav-link" onclick="toggleMobileMenu()">HERITAGE</a>
                 <a href="#trust" class="mobile-nav-link" onclick="toggleMobileMenu()">TRUST</a>
-                <a href="/admin/login" class="mobile-nav-link admin-mobile-link" onclick="toggleMobileMenu()">ADMIN CONTROL</a>
+                <a href="admin/login.html" class="mobile-nav-link admin-mobile-link" onclick="toggleMobileMenu()">ADMIN CONTROL</a>
                 <a href="https://wa.me/918891071849?text=Hello%20SAPPHERE%2C%20I%20would%20like%20to%20inquire%20about%20your%20custom%20jewelry%20design%20services." target="_blank" class="btn-primary mobile-chat-btn">
                     <span>WHATSAPP CHAT</span>
                 </a>
@@ -144,7 +152,7 @@
                     <!-- Right: Premium Floating Image Card -->
                     <div class="hero-image-col cinematic-fade">
                         <div class="hero-image-frame">
-                            <img src="assets/hero_jewelry_1780120010207.png" alt="SAPPHERE Royal Jewelry" class="hero-jewel-img">
+                            <img src="assets/hero_jewelry_1780120010207.jpg" alt="SAPPHERE Royal Jewelry" class="hero-jewel-img">
                             <div class="hero-img-sweep"></div>
                         </div>
                     </div>
@@ -276,7 +284,8 @@
                     <button class="jewel-filter-btn" data-filter="bracelet" onclick="filterJewels(this,'bracelet')">Bracelets</button>
                     <button class="jewel-filter-btn" data-filter="ring" onclick="filterJewels(this,'ring')">Rings</button>
                     <button class="jewel-filter-btn" data-filter="set" onclick="filterJewels(this,'set')">Sets</button>
-                   <!-- Jewels Product Grid -->
+                </div>
+                <!-- Jewels Product Grid -->
                 <div class="jewels-grid" id="jewels-grid">
 
                     <!-- Card 1 -->
@@ -832,7 +841,7 @@
     </style>
 
     <!-- WebGL and Scroll JavaScript Engine Script -->
-    <script src="config.js?v=7"></script>
+    <script src="config.js?v=7" defer></script>
     <script type="module" src="main.js?v=7"></script>
 
 </body>

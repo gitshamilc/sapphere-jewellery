@@ -20,7 +20,7 @@
     --transition-slow: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-medium: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    --satin-bg: url('./assets/satin_bg.png');
+    --satin-bg: url('./assets/satin_bg.jpg');
 }
 
 /* Global Reset & Base */

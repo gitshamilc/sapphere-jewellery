@@ -30,23 +30,29 @@ drop policy if exists "Public read jewelry_products"   on public.jewelry_product
 drop policy if exists "Public insert jewelry_products" on public.jewelry_products;
 drop policy if exists "Public update jewelry_products" on public.jewelry_products;
 drop policy if exists "Public delete jewelry_products" on public.jewelry_products;
+drop policy if exists "Authenticated insert jewelry_products" on public.jewelry_products;
+drop policy if exists "Authenticated update jewelry_products" on public.jewelry_products;
+drop policy if exists "Authenticated delete jewelry_products" on public.jewelry_products;
 
--- STEP 5: Create new RLS policies — allow anon key full CRUD
+-- STEP 5: Create new RLS policies — allow public read, but restrict write actions to logged-in admin users
 create policy "Public read jewelry_products"
   on public.jewelry_products for select
   using (true);
 
-create policy "Public insert jewelry_products"
+create policy "Authenticated insert jewelry_products"
   on public.jewelry_products for insert
+  to authenticated
   with check (true);
 
-create policy "Public update jewelry_products"
+create policy "Authenticated update jewelry_products"
   on public.jewelry_products for update
+  to authenticated
   using (true)
   with check (true);
 
-create policy "Public delete jewelry_products"
+create policy "Authenticated delete jewelry_products"
   on public.jewelry_products for delete
+  to authenticated
   using (true);
 
 -- STEP 6: Enable Realtime (run separately if this errors)
@@ -73,7 +79,7 @@ values
   ('luxury-set',       'Sapphire Luxury Set',        'set',      4499, 5499, 'Our crown jewel masterpiece suite, featuring royal blue sapphires in intricate golden settings.',                                    'photosjewewllry/jewelry-15.jpg','LUXURY',      '5.0', '31',  false),
   ('emerald-ring',     'Emerald Solitaire Ring',     'ring',     1899, 2299, 'A breathtaking solitaire ring showcasing a deep forest green faceted emerald cut gem.',                                              'photosjewewllry/jewelry-17.jpg',   'TRENDING',    '5.0', '77',  false),
   ('floral-stud-2',    'Vintage Floral Stud',        'earring',   799, 999,  'Delicate vintage-inspired floral studs with pearl center and gold petals.',                                                          'photosjewewllry/jewelry-08.jpg',   'POPULAR',     '4.8', '56',  false),
-  ('hero-set',         'ChatGPT Hero Jewel Set',     'set',      5999, 6999, 'Our prestige centerpiece set, an exclusive collaboration design with high-end gem-encrusted golden frameworks.',                     'photosjewewllry/jewelry-18.png',    'EXCLUSIVE',   '5.0', '21',  false)
+  ('hero-set',         'ChatGPT Hero Jewel Set',     'set',      5999, 6999, 'Our prestige centerpiece set, an exclusive collaboration design with high-end gem-encrusted golden frameworks.',                     'photosjewewllry/jewelry-18.jpg',    'EXCLUSIVE',   '5.0', '21',  false)
 on conflict (id) do nothing;
 
 -- ============================================================
