@@ -108,22 +108,36 @@
             }
           }
 
-          if (!error && data.user) {
+          if (!error && data?.user) {
             sessionStorage.setItem('adminAuth', 'true');
             location.href = 'panel.html';
           } else {
-            console.error("Auth error:", error ? error.message : "Unknown error");
-            errorDiv.textContent = error ? error.message : "Authentication failed.";
+            // Fallback to local credentials if Supabase auth fails (e.g. email confirmation required, database offline/unhealthy, or user not created)
+            if (usernameInput === localCreds.id && pwd === localCreds.pass) {
+              console.warn("Supabase Auth failed, logging in via local fallback:", error ? error.message : "Unknown error");
+              sessionStorage.setItem('adminAuth', 'true');
+              location.href = 'panel.html';
+            } else {
+              console.error("Auth error:", error ? error.message : "Unknown error");
+              errorDiv.textContent = error ? error.message : "Invalid login credentials.";
+              errorDiv.style.display = 'block';
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = originalBtnHTML;
+            }
+          }
+        } catch (err) {
+          console.error(err);
+          // Fallback to local credentials if network request throws exception
+          if (usernameInput === localCreds.id && pwd === localCreds.pass) {
+            console.warn("Supabase connection exception, logging in via local fallback:", err);
+            sessionStorage.setItem('adminAuth', 'true');
+            location.href = 'panel.html';
+          } else {
+            errorDiv.textContent = "Server connection error. Please try again.";
             errorDiv.style.display = 'block';
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalBtnHTML;
           }
-        } catch (err) {
-          console.error(err);
-          errorDiv.textContent = "Server connection error. Please try again.";
-          errorDiv.style.display = 'block';
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnHTML;
         }
       } else {
         // Local offline fallback mode
