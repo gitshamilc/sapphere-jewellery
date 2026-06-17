@@ -1075,23 +1075,8 @@ class App {
        SMOOTH INERTIA SCROLL (Lenis Engine)
        ========================================================================== */
     initSmoothScroll() {
-        this.lenis = new Lenis({
-            duration: 1.4,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            orientation: 'vertical',
-            gestureOrientation: 'vertical',
-            smoothWheel: true,
-            wheelMultiplier: 0.95,
-            touchMultiplier: 1.3
-        });
-
-        this.lenis.on('scroll', ScrollTrigger.update);
-
-        const raf = (time) => {
-            this.lenis.raf(time);
-            requestAnimationFrame(raf);
-        };
-        requestAnimationFrame(raf);
+        // Disabled Lenis smooth scroll to ensure 100% native scrolling compatibility across all touchpad devices and mice
+        this.lenis = null;
     }
 
     /* ==========================================================================
@@ -1306,8 +1291,9 @@ class App {
         const encMsg = encodeURIComponent(orderMsg);
         document.getElementById('qv-buy-link').href = `https://wa.me/918891071849?text=${encMsg}`;
 
-        // Stop Lenis background scrolling when drawer is open
+        // Stop background scrolling when drawer is open
         if (this.lenis) this.lenis.stop();
+        document.body.style.overflow = 'hidden';
 
         // Slide Drawer up cleanly
         overlay.classList.add('active');
@@ -1334,8 +1320,9 @@ class App {
                 overlay.classList.remove('active');
                 drawer.classList.remove('active');
                 
-                // Restart Lenis scroll track
+                // Restart scroll track
                 if (this.lenis) this.lenis.start();
+                document.body.style.overflow = '';
             }
         });
     }
@@ -1452,6 +1439,7 @@ class App {
         if (!overlay || !drawer) return;
 
         if (this.lenis) this.lenis.stop();
+        document.body.style.overflow = 'hidden';
 
         overlay.classList.add('active');
         drawer.classList.add('active');
@@ -1479,6 +1467,7 @@ class App {
                     overlay.classList.remove('active');
                     drawer.classList.remove('active');
                     if (this.lenis) this.lenis.start();
+                    document.body.style.overflow = '';
                 }
             });
         } else {
@@ -1490,6 +1479,7 @@ class App {
                     overlay.classList.remove('active');
                     drawer.classList.remove('active');
                     if (this.lenis) this.lenis.start();
+                    document.body.style.overflow = '';
                 }
             });
         }
