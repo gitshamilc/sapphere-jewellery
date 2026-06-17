@@ -3,6 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/feed.xml", "destination": "/api/feed" },
     { "source": "/(.*)", "destination": "/" }
   ],
   "headers": [
