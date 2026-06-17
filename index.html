@@ -33,7 +33,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
     
     <!-- Preload LCP Asset -->
     <link rel="preload" href="assets/hero_jewelry_1780120010207.jpg" as="image">
@@ -296,6 +296,47 @@
                 <span class="section-tag text-center">✦ OUR COLLECTION ✦</span>
                 <h2 class="section-title text-center">Sapphere Jewels</h2>
                 <p class="section-desc text-center">Browse our full collection — each piece crafted for elegance, shipped across Kerala.</p>
+
+                <!-- Visual Categories Grid (Alternating Layout matching herofficial) -->
+                <div class="category-grid-container">
+                    <div class="category-grid">
+                        <!-- Rings (Full width) -->
+                        <div class="cat-card cat-card-full" onclick="selectCategory('ring')">
+                            <img src="photosjewewllry/jewelry-13.jpg" alt="Rings" class="cat-card-img" loading="lazy">
+                            <div class="cat-card-label">Rings</div>
+                        </div>
+                        
+                        <!-- Necklaces (Half width) -->
+                        <div class="cat-card cat-card-half" onclick="selectCategory('necklace')">
+                            <img src="photosjewewllry/jewelry-01.jpg" alt="Necklaces" class="cat-card-img" loading="lazy">
+                            <div class="cat-card-label">Necklaces</div>
+                        </div>
+                        
+                        <!-- Bracelets & Anklets (Half width) -->
+                        <div class="cat-card cat-card-half" onclick="selectCategory('bracelet')">
+                            <img src="photosjewewllry/jewelry-16.jpg" alt="Bracelets" class="cat-card-img" loading="lazy">
+                            <div class="cat-card-label">Bracelets</div>
+                        </div>
+                        
+                        <!-- Sets / Combos (Full width) -->
+                        <div class="cat-card cat-card-full" onclick="selectCategory('set')">
+                            <img src="photosjewewllry/jewelry-15.jpg" alt="Jewellery Combos" class="cat-card-img" loading="lazy">
+                            <div class="cat-card-label">Jewellery Combos</div>
+                        </div>
+                        
+                        <!-- Earrings (Half width) -->
+                        <div class="cat-card cat-card-half" onclick="selectCategory('earring')">
+                            <img src="photosjewewllry/jewelry-10.jpg" alt="Earrings" class="cat-card-img" loading="lazy">
+                            <div class="cat-card-label">Earrings</div>
+                        </div>
+                        
+                        <!-- Best Sellers (Half width) -->
+                        <div class="cat-card cat-card-half" onclick="selectCategory('all')">
+                            <img src="assets/hero_jewelry_1780120010207.jpg" alt="Best Sellers" class="cat-card-img" loading="lazy">
+                            <div class="cat-card-label">Best sellers</div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Category Filter Tabs -->
                 <div class="jewels-filter-bar">
@@ -824,6 +865,16 @@
                     card.classList.add('hidden');
                 }
             });
+        }
+
+        function selectCategory(cat) {
+            // Find the corresponding filter button and click it
+            const btn = document.querySelector(`.jewel-filter-btn[data-filter="${cat}"]`);
+            if (btn) {
+                filterJewels(btn, cat);
+                // Scroll down to the jewels grid smoothly
+                document.getElementById('jewels-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         // Toggle mobile navigation overlay
