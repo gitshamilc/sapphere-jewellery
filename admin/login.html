@@ -50,7 +50,11 @@
     const localCreds = { id: "sapphere", pass: "sapphere@321" };
     
     // Check if Supabase client is active
-    const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && window.CONFIG.SUPABASE_URL && window.CONFIG.SUPABASE_ANON_KEY && supabase !== null;
+    const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && 
+                                 window.CONFIG.SUPABASE_URL && 
+                                 window.CONFIG.SUPABASE_ANON_KEY && 
+                                 supabase !== null && 
+                                 location.protocol !== 'file:';
 
     document.getElementById('login-form').addEventListener('submit', async e => {
       e.preventDefault();

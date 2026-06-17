@@ -404,7 +404,10 @@
         }
     ];
 
-    const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && window.CONFIG.SUPABASE_URL && window.CONFIG.SUPABASE_ANON_KEY;
+    const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && 
+                                 window.CONFIG.SUPABASE_URL && 
+                                 window.CONFIG.SUPABASE_ANON_KEY && 
+                                 location.protocol !== 'file:';
 
     async function loadProducts() {
       if (isSupabaseConfigured) {
@@ -432,6 +435,7 @@
           }
         } catch (err) {
           console.error("Supabase load error, falling back to LocalStorage:", err);
+          showToast('warning', 'Database connection failed. Running in local storage fallback mode.');
         }
       }
 
@@ -610,14 +614,31 @@
             updatedFields.img = imgData;
           }
 
+          let savedToSupabase = false;
           if (isSupabaseConfigured) {
-            const { error } = await supabase.from('jewelry_products').update(updatedFields).eq('id', item.id);
-            if (error) throw error;
+            try {
+              const { error } = await supabase.from('jewelry_products').update(updatedFields).eq('id', item.id);
+              if (error) throw error;
+              savedToSupabase = true;
+            } catch (supErr) {
+              console.warn("Supabase update failed, falling back to local storage:", supErr);
+            }
+          }
+
+          if (savedToSupabase) {
+            try {
+              const { data, error } = await supabase.from('jewelry_products').select('*').order('created_at', { ascending: true });
+              if (!error && data) productList = data;
+            } catch (fetchErr) {
+              console.error(fetchErr);
+            }
+            showToast('success', 'Product updated successfully in cloud.');
           } else {
             Object.assign(item, updatedFields);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(productList));
+            showToast(isSupabaseConfigured ? 'warning' : 'success', 
+                      isSupabaseConfigured ? 'Database offline. Product updated in local browser cache.' : 'Product updated successfully.');
           }
-          showToast('success', 'Product updated successfully.');
         } else {
           // Add new product
           const id = name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '-' + Math.floor(Math.random() * 1000);
@@ -635,21 +656,33 @@
             reviews: "0"
           };
 
+          let savedToSupabase = false;
           if (isSupabaseConfigured) {
-            const { error } = await supabase.from('jewelry_products').insert([newProd]);
-            if (error) throw error;
+            try {
+              const { error } = await supabase.from('jewelry_products').insert([newProd]);
+              if (error) throw error;
+              savedToSupabase = true;
+            } catch (supErr) {
+              console.warn("Supabase insert failed, falling back to local storage:", supErr);
+            }
+          }
+
+          if (savedToSupabase) {
+            try {
+              const { data, error } = await supabase.from('jewelry_products').select('*').order('created_at', { ascending: true });
+              if (!error && data) productList = data;
+            } catch (fetchErr) {
+              console.error(fetchErr);
+            }
+            showToast('success', 'Product added successfully to cloud.');
           } else {
             productList.push(newProd);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(productList));
+            showToast(isSupabaseConfigured ? 'warning' : 'success', 
+                      isSupabaseConfigured ? 'Database offline. Product added to local browser cache.' : 'Product added successfully.');
           }
-          showToast('success', 'Product added successfully.');
         }
 
-        if (isSupabaseConfigured) {
-          const { data, error } = await supabase.from('jewelry_products').select('*').order('created_at', { ascending: true });
-          if (error) throw error;
-          productList = data || [];
-        }
         updateDashboard();
         closeForm();
       } catch (err) {
@@ -703,16 +736,25 @@
         }
 
         try {
+          let deletedFromSupabase = false;
           if (isSupabaseConfigured) {
-            const { error } = await supabase.from('jewelry_products').delete().eq('id', p.id);
-            if (error) throw error;
-            productList.splice(idx, 1);
+            try {
+              const { error } = await supabase.from('jewelry_products').delete().eq('id', p.id);
+              if (error) throw error;
+              deletedFromSupabase = true;
+            } catch (supErr) {
+              console.warn("Supabase delete failed, falling back to local storage:", supErr);
+            }
+          }
+
+          productList.splice(idx, 1);
+          if (deletedFromSupabase) {
+            showToast('error', 'Product removed from cloud catalog.');
           } else {
-            productList.splice(idx, 1);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(productList));
+            showToast('error', isSupabaseConfigured ? 'Database offline. Product removed from local cache.' : 'Product removed from catalog.');
           }
           updateDashboard();
-          showToast('error', 'Product removed from catalog.');
         } catch (err) {
           showToast('error', 'Error deleting product: ' + err.message);
           console.error(err);

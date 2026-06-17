@@ -473,7 +473,10 @@ class App {
         });
 
         // Supabase Realtime subscription for automatic cross-device updates
-        const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && window.CONFIG.SUPABASE_URL && window.CONFIG.SUPABASE_ANON_KEY;
+        const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && 
+                                     window.CONFIG.SUPABASE_URL && 
+                                     window.CONFIG.SUPABASE_ANON_KEY && 
+                                     location.protocol !== 'file:';
         if (isSupabaseConfigured) {
             supabase
                 .channel('public:jewelry_products')
@@ -490,7 +493,10 @@ class App {
        ========================================================================== */
     async loadProducts() {
         const STORAGE_KEY = 'sapphereProducts';
-        const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && window.CONFIG.SUPABASE_URL && window.CONFIG.SUPABASE_ANON_KEY;
+        const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && 
+                                     window.CONFIG.SUPABASE_URL && 
+                                     window.CONFIG.SUPABASE_ANON_KEY && 
+                                     location.protocol !== 'file:';
 
         if (isSupabaseConfigured) {
             localStorage.removeItem(STORAGE_KEY); // clear stale cache before fetch
