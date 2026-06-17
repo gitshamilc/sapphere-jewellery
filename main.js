@@ -873,13 +873,13 @@ class App {
         const title = document.querySelector('.loader-title');
         const barContainer = document.querySelector('.loader-bar-container');
 
-        // Safety: always unlock scroll after 8s no matter what
+        // Safety: always unlock scroll after 4s no matter what
         const safetyUnlock = setTimeout(() => {
             document.body.style.overflow = '';
             document.body.style.height = '';
             if (loader) loader.style.display = 'none';
             onCompleteCallback();
-        }, 8000);
+        }, 4000);
 
         if (!loader) {
             clearTimeout(safetyUnlock);
@@ -892,15 +892,15 @@ class App {
 
             const tl = gsap.timeline();
             
-            tl.to(tagline, { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out' })
-              .to(title, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', letterSpacing: '0.5em' }, '-=0.6')
-              .to(barContainer, { opacity: 1, duration: 0.8 }, '-=0.8')
-              .to(loaderPercent, { opacity: 0.7, duration: 0.8 }, '-=0.8');
+            tl.to(tagline, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
+              .to(title, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', letterSpacing: '0.5em' }, '-=0.3')
+              .to(barContainer, { opacity: 1, duration: 0.4 }, '-=0.4')
+              .to(loaderPercent, { opacity: 0.7, duration: 0.4 }, '-=0.4');
 
             const progressObj = { value: 0 };
             gsap.to(progressObj, {
                 value: 100,
-                duration: 0.6,
+                duration: 0.4,
                 ease: 'power1.inOut',
                 onUpdate: () => {
                     const percent = Math.floor(progressObj.value);
@@ -919,13 +919,13 @@ class App {
                     });
 
                     const loaderBg = document.querySelector('.loader-bg');
-                    exitTl.to(loaderPercent, { opacity: 0, duration: 0.3 })
-                          .to([tagline, title, barContainer], { y: -50, opacity: 0, stagger: 0.1, duration: 0.6, ease: 'power2.in' })
+                    exitTl.to(loaderPercent, { opacity: 0, duration: 0.15 })
+                          .to([tagline, title, barContainer], { y: -50, opacity: 0, stagger: 0.05, duration: 0.3, ease: 'power2.in' })
                           .to(loaderBg, { 
                               transform: 'translateY(-100%)', 
-                              duration: 1.2, 
+                              duration: 0.6, 
                               ease: 'power4.inOut' 
-                          }, '-=0.2');
+                          }, '-=0.1');
                 }
             });
         } catch(e) {
