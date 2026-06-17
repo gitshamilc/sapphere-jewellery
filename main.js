@@ -503,6 +503,12 @@ class App {
             } catch (err) {
                 console.error("Failed to initialize scroll fades:", err);
             }
+            try {
+                this.checkHashRoute();
+                window.addEventListener('hashchange', () => this.checkHashRoute());
+            } catch (err) {
+                console.error("Failed to check hash route:", err);
+            }
         });
 
         // Supabase Realtime subscription for automatic cross-device updates
@@ -828,12 +834,13 @@ class App {
                         "@context": "https://schema.org/",
                         "@type": "Product",
                         "name": p.name || 'SAPPHERE Jewelry',
+                        "url": `https://sapphere.xyz/#product=${p.id}`,
                         "image": imgUrl,
                         "description": p.description || `${p.name || 'SAPPHERE Jewelry'} - premium exquisite handcrafted jewelry.`,
                         "sku": `SAPPHERE-${String(p.id || '').toUpperCase()}`,
                         "offers": {
                             "@type": "Offer",
-                            "url": `https://sapphere.xyz/#store`,
+                            "url": `https://sapphere.xyz/#product=${p.id}`,
                             "priceCurrency": "INR",
                             "price": p.price ? String(p.price) : "0",
                             "itemCondition": "https://schema.org/NewCondition",
@@ -1277,6 +1284,11 @@ class App {
         const data = this.productList.find(p => p.id === productId);
         if (!data) return;
 
+        // Set URL hash for product SEO indexability
+        if (window.location.hash !== `#product=${productId}`) {
+            history.pushState(null, null, `#product=${productId}`);
+        }
+
         const overlay = document.getElementById('quickview-overlay');
         const drawer = document.getElementById('quickview-drawer');
         
@@ -1285,16 +1297,16 @@ class App {
         document.getElementById('qv-img').src = data.img;
         document.getElementById('qv-desc').textContent = data.description || 'Bespoke SAPPHERE handcrafted jewelry piece.';
         document.getElementById('qv-price').textContent = `Rs.${Number(data.price).toLocaleString('en-IN')}`;
-
+ 
         // Set WhatsApp Checkout URL
         const orderMsg = `Hello SAPPHERE! I am interested in purchasing the ${data.name} (Rs.${Number(data.price).toLocaleString('en-IN')}). Please guide me through checkout.`;
         const encMsg = encodeURIComponent(orderMsg);
         document.getElementById('qv-buy-link').href = `https://wa.me/918891071849?text=${encMsg}`;
-
+ 
         // Stop background scrolling when drawer is open
         if (this.lenis) this.lenis.stop();
         document.body.style.overflow = 'hidden';
-
+ 
         // Slide Drawer up cleanly
         overlay.classList.add('active');
         drawer.classList.add('active');
@@ -1304,11 +1316,11 @@ class App {
             { y: '-50%', x: '-50%', scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
         );
     }
-
+ 
     closeQuickView() {
         const overlay = document.getElementById('quickview-overlay');
         const drawer = document.getElementById('quickview-drawer');
-
+ 
         gsap.to(drawer, {
             y: '-30%',
             x: '-50%',
@@ -1320,11 +1332,26 @@ class App {
                 overlay.classList.remove('active');
                 drawer.classList.remove('active');
                 
+                // Clear product hash cleanly without page jump
+                if (window.location.hash.startsWith('#product=')) {
+                    history.pushState("", document.title, window.location.pathname + window.location.search);
+                }
+ 
                 // Restart scroll track
                 if (this.lenis) this.lenis.start();
                 document.body.style.overflow = '';
             }
         });
+    }
+
+    checkHashRoute() {
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#product=')) {
+            const productId = hash.substring(9);
+            if (this.productList && this.productList.some(p => p.id === productId)) {
+                this.openQuickView(productId);
+            }
+        }
     }
 
     /* ==========================================================================
