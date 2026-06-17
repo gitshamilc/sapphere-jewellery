@@ -1035,11 +1035,11 @@ class App {
 
         this.lenis.on('scroll', ScrollTrigger.update);
 
-        gsap.ticker.add((time) => {
-            this.lenis.raf(time * 1000);
-        });
-
-        gsap.ticker.lagSmoothing(0);
+        const raf = (time) => {
+            this.lenis.raf(time);
+            requestAnimationFrame(raf);
+        };
+        requestAnimationFrame(raf);
     }
 
     /* ==========================================================================
