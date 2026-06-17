@@ -504,10 +504,11 @@ class App {
                 console.error("Failed to initialize scroll fades:", err);
             }
             try {
-                this.checkHashRoute();
-                window.addEventListener('hashchange', () => this.checkHashRoute());
+                this.checkRoute();
+                window.addEventListener('hashchange', () => this.checkRoute());
+                window.addEventListener('popstate', () => this.checkRoute());
             } catch (err) {
-                console.error("Failed to check hash route:", err);
+                console.error("Failed to check routing:", err);
             }
         });
 
@@ -834,13 +835,13 @@ class App {
                         "@context": "https://schema.org/",
                         "@type": "Product",
                         "name": p.name || 'SAPPHERE Jewelry',
-                        "url": `https://sapphere.xyz/#product=${p.id}`,
+                        "url": `https://sapphere.xyz/product/${p.id}`,
                         "image": imgUrl,
                         "description": p.description || `${p.name || 'SAPPHERE Jewelry'} - premium exquisite handcrafted jewelry.`,
                         "sku": `SAPPHERE-${String(p.id || '').toUpperCase()}`,
                         "offers": {
                             "@type": "Offer",
-                            "url": `https://sapphere.xyz/#product=${p.id}`,
+                            "url": `https://sapphere.xyz/product/${p.id}`,
                             "priceCurrency": "INR",
                             "price": p.price ? String(p.price) : "0",
                             "itemCondition": "https://schema.org/NewCondition",
@@ -1284,9 +1285,10 @@ class App {
         const data = this.productList.find(p => p.id === productId);
         if (!data) return;
 
-        // Set URL hash for product SEO indexability
-        if (window.location.hash !== `#product=${productId}`) {
-            history.pushState(null, null, `#product=${productId}`);
+        // Set URL path for product SEO indexability
+        const targetPath = `/product/${productId}`;
+        if (window.location.pathname !== targetPath) {
+            history.pushState(null, null, targetPath);
         }
 
         const overlay = document.getElementById('quickview-overlay');
@@ -1297,6 +1299,9 @@ class App {
         document.getElementById('qv-img').src = data.img;
         document.getElementById('qv-desc').textContent = data.description || 'Bespoke SAPPHERE handcrafted jewelry piece.';
         document.getElementById('qv-price').textContent = `Rs.${Number(data.price).toLocaleString('en-IN')}`;
+
+        // Update SEO metadata
+        this.updateSEO(data);
  
         // Set WhatsApp Checkout URL
         const orderMsg = `Hello SAPPHERE! I am interested in purchasing the ${data.name} (Rs.${Number(data.price).toLocaleString('en-IN')}). Please guide me through checkout.`;
@@ -1332,10 +1337,21 @@ class App {
                 overlay.classList.remove('active');
                 drawer.classList.remove('active');
                 
-                // Clear product hash cleanly without page jump
-                if (window.location.hash.startsWith('#product=')) {
-                    history.pushState("", document.title, window.location.pathname + window.location.search);
+                // Reset URL path/query/hash back to root
+                if (window.location.pathname.startsWith('/product/') || 
+                    window.location.search.includes('product=') || 
+                    window.location.hash.startsWith('#product=')) {
+                    
+                    const params = new URLSearchParams(window.location.search);
+                    params.delete('product');
+                    const searchStr = params.toString();
+                    const newUrl = '/' + (searchStr ? '?' + searchStr : '');
+                    
+                    history.pushState("", document.title, newUrl);
                 }
+
+                // Reset SEO metadata
+                this.updateSEO(null);
  
                 // Restart scroll track
                 if (this.lenis) this.lenis.start();
@@ -1344,12 +1360,109 @@ class App {
         });
     }
 
-    checkHashRoute() {
-        const hash = window.location.hash;
-        if (hash && hash.startsWith('#product=')) {
-            const productId = hash.substring(9);
+    updateSEO(product) {
+        try {
+            if (product) {
+                // Update document title
+                document.title = `${product.name} | SAPPHERE Premium Jewelry`;
+                
+                // Update meta description
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) metaDesc.setAttribute('content', product.description || `${product.name} - Exquisite handcrafted jewelry from SAPPHERE.`);
+                
+                // Update Open Graph tags
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) ogTitle.setAttribute('content', `${product.name} | SAPPHERE`);
+                
+                const ogDesc = document.querySelector('meta[property="og:description"]');
+                if (ogDesc) ogDesc.setAttribute('content', product.description || `Buy ${product.name} online at SAPPHERE. Handcrafted premium jewelry.`);
+                
+                let imgUrl = product.img || '';
+                if (typeof imgUrl === 'string') {
+                    if (imgUrl.startsWith('../')) imgUrl = imgUrl.substring(3);
+                    if (!imgUrl.startsWith('http')) {
+                        imgUrl = `https://sapphere.xyz/${imgUrl}`;
+                    }
+                }
+                const ogImage = document.querySelector('meta[property="og:image"]');
+                if (ogImage) ogImage.setAttribute('content', imgUrl);
+                
+                const twTitle = document.querySelector('meta[name="twitter:title"]');
+                if (twTitle) twTitle.setAttribute('content', `${product.name} | SAPPHERE`);
+                
+                const twDesc = document.querySelector('meta[name="twitter:description"]');
+                if (twDesc) twDesc.setAttribute('content', product.description || `Buy ${product.name} online at SAPPHERE.`);
+                
+                const twImage = document.querySelector('meta[name="twitter:image"]');
+                if (twImage) twImage.setAttribute('content', imgUrl);
+                
+                const canonical = document.querySelector('link[rel="canonical"]');
+                if (canonical) canonical.setAttribute('href', `https://sapphere.xyz/product/${product.id}`);
+            } else {
+                // Reset to default store SEO
+                document.title = "SAPPHERE — Premium Luxury Jewelry Store";
+                
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) metaDesc.setAttribute('content', "SAPPHERE - Premium e-commerce jewelry store showcasing hand-crafted royal sapphire, gold, and bead necklaces, earrings, and pendants. Intimate luxury at sapphere.xyz.");
+                
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) ogTitle.setAttribute('content', "SAPPHERE — Premium Luxury Jewelry Store");
+                
+                const ogDesc = document.querySelector('meta[property="og:description"]');
+                if (ogDesc) ogDesc.setAttribute('content', "Shop hand-crafted premium royal sapphire, gold, and bead necklaces, earrings, and pendants. Intimate luxury jewelry at sapphere.xyz.");
+                
+                const ogImage = document.querySelector('meta[property="og:image"]');
+                if (ogImage) ogImage.setAttribute('content', "https://sapphere.xyz/photosjewewllry/jewelry-01.jpg");
+                
+                const twTitle = document.querySelector('meta[name="twitter:title"]');
+                if (twTitle) twTitle.setAttribute('content', "SAPPHERE — Premium Luxury Jewelry Store");
+                
+                const twDesc = document.querySelector('meta[name="twitter:description"]');
+                if (twDesc) twDesc.setAttribute('content', "Shop hand-crafted premium royal sapphire, gold, and bead necklaces, earrings, and pendants. Intimate luxury jewelry at sapphere.xyz.");
+                
+                const twImage = document.querySelector('meta[name="twitter:image"]');
+                if (twImage) twImage.setAttribute('content', "https://sapphere.xyz/photosjewewllry/jewelry-01.jpg");
+                
+                const canonical = document.querySelector('link[rel="canonical"]');
+                if (canonical) canonical.setAttribute('href', "https://sapphere.xyz/");
+            }
+        } catch (seoErr) {
+            console.error("SEO update failed:", seoErr);
+        }
+    }
+
+    checkRoute() {
+        let productId = null;
+        
+        // 1. Path routing check
+        const path = window.location.pathname;
+        if (path && path.startsWith('/product/')) {
+            productId = path.substring(9);
+        }
+        
+        // 2. Query param check
+        if (!productId) {
+            const params = new URLSearchParams(window.location.search);
+            productId = params.get('product');
+        }
+        
+        // 3. Hash check
+        if (!productId) {
+            const hash = window.location.hash;
+            if (hash && hash.startsWith('#product=')) {
+                productId = hash.substring(9);
+            }
+        }
+        
+        if (productId) {
             if (this.productList && this.productList.some(p => p.id === productId)) {
                 this.openQuickView(productId);
+            }
+        } else {
+            // No product in URL, make sure QuickView is closed
+            const drawer = document.getElementById('quickview-drawer');
+            if (drawer && drawer.classList.contains('active')) {
+                this.closeQuickView();
             }
         }
     }

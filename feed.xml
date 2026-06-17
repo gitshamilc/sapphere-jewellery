@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+  <channel>
+    <title>SAPPHERE Premium Jewelry</title>
+    <link>https://sapphere.xyz</link>
+    <description>Premium, intimate e-commerce jewelry store showcasing hand-crafted royal sapphire, gold, and bead necklaces, earrings, and pendants.</description>
+    
+    <!-- Item 1 -->
+    <item>
+      <g:id>flora-bead</g:id>
+      <g:title>Flora Bead Choker</g:title>
+      <g:description>A playful, graceful gold chain adorned with hand-strung multi-colored floral bead charms.</g:description>
+      <g:link>https://sapphere.xyz/product/flora-bead</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-01.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>1899 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Necklaces</g:google_product_category>
+    </item>
+
+    <!-- Item 2 -->
+    <item>
+      <g:id>earring-suite</g:id>
+      <g:title>Atelier Earring Suite</g:title>
+      <g:description>Curated suite of three distinct gold earrings: floral studs, double heart hoops, and bamboo hoops.</g:description>
+      <g:link>https://sapphere.xyz/product/earring-suite</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-10.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>2499 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Earrings</g:google_product_category>
+    </item>
+
+    <!-- Item 3 -->
+    <item>
+      <g:id>aura-heart</g:id>
+      <g:title>Aura Heart Pendant</g:title>
+      <g:description>A classic minimal gold chain holding a polished solid gold heart pendant on a premium display stand.</g:description>
+      <g:link>https://sapphere.xyz/product/aura-heart</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-05.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>1599 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Necklaces</g:google_product_category>
+    </item>
+
+    <!-- Item 4 -->
+    <item>
+      <g:id>silken-heart</g:id>
+      <g:title>Silken Heart Choker</g:title>
+      <g:description>A delicate hollow gold heart pendant layered elegantly over natural liquid-silk champagne drapery.</g:description>
+      <g:link>https://sapphere.xyz/product/silken-heart</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-07.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>1699 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Necklaces</g:google_product_category>
+    </item>
+
+    <!-- Item 5 -->
+    <item>
+      <g:id>layered-necklace</g:id>
+      <g:title>Royal Layered Necklace</g:title>
+      <g:description>Intricately styled layered necklace blending warm yellow gold bars and custom sweep links.</g:description>
+      <g:link>https://sapphere.xyz/product/layered-necklace</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-01.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>1899 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Necklaces</g:google_product_category>
+    </item>
+
+    <!-- Item 6 -->
+    <item>
+      <g:id>gold-choker</g:id>
+      <g:title>Gold Bead Choker</g:title>
+      <g:description>Minimalist elegant gold bead choker, perfect for stacking and everyday elegance.</g:description>
+      <g:link>https://sapphere.xyz/product/gold-choker</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-02.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>1499 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Necklaces</g:google_product_category>
+    </item>
+
+    <!-- Item 7 -->
+    <item>
+      <g:id>pearl-strand</g:id>
+      <g:title>Intimate Pearl Strand</g:title>
+      <g:description>Elegant genuine pearl strand displaying subtle cream iridescent tones and safe gold locks.</g:description>
+      <g:link>https://sapphere.xyz/product/pearl-strand</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-03.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>2199 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Necklaces</g:google_product_category>
+    </item>
+
+    <!-- Item 8 -->
+    <item>
+      <g:id>floral-studs</g:id>
+      <g:title>Floral Stud Earrings</g:title>
+      <g:description>Dainty floral stud earrings designed to frame the face with light-catching golden petals.</g:description>
+      <g:link>https://sapphere.xyz/product/floral-studs</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-06.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>899 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Earrings</g:google_product_category>
+    </item>
+
+    <!-- Item 9 -->
+    <item>
+      <g:id>gold-bracelet</g:id>
+      <g:title>Velvet Gold Bracelet</g:title>
+      <g:description>Sleek and polished gold bracelet designed with smooth link loops and custom security sweeps.</g:description>
+      <g:link>https://sapphere.xyz/product/gold-bracelet</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-09.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>1299 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Bracelets</g:google_product_category>
+    </item>
+
+    <!-- Item 10 -->
+    <item>
+      <g:id>gold-ring</g:id>
+      <g:title>Rose Gold Statement Ring</g:title>
+      <g:description>Bold rose gold band ring, hand-polished to capture modern architectural sophistication.</g:description>
+      <g:link>https://sapphere.xyz/product/gold-ring</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-13.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>1199 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Rings</g:google_product_category>
+    </item>
+
+    <!-- Item 11 -->
+    <item>
+      <g:id>crystal-drops</g:id>
+      <g:title>Crystal Drop Earrings</g:title>
+      <g:description>Dazzling crystal drop earrings that cascade gracefully to add royalty and glamour.</g:description>
+      <g:link>https://sapphere.xyz/product/crystal-drops</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-11.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>999 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Earrings</g:google_product_category>
+    </item>
+
+    <!-- Item 12 -->
+    <item>
+      <g:id>combo-set</g:id>
+      <g:title>Bridal Combo Set</g:title>
+      <g:description>A rich jewelry suite containing matching royal layered choker and drop studs.</g:description>
+      <g:link>https://sapphere.xyz/product/combo-set</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-12.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>3499 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Jewelry Sets</g:google_product_category>
+    </item>
+
+    <!-- Item 13 -->
+    <item>
+      <g:id>tennis-bracelet</g:id>
+      <g:title>Diamond Tennis Bracelet</g:title>
+      <g:description>Classic high-end tennis bracelet hand-set with highly brilliant sparkling faceted simulated diamonds.</g:description>
+      <g:link>https://sapphere.xyz/product/tennis-bracelet</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-16.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>2799 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Bracelets</g:google_product_category>
+    </item>
+
+    <!-- Item 14 -->
+    <item>
+      <g:id>festive-set</g:id>
+      <g:title>Festive Gold Set</g:title>
+      <g:description>Elegant traditional gold-sweep matching choker and bangle set designed for celebrations.</g:description>
+      <g:link>https://sapphere.xyz/product/festive-set</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-14.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>2999 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Jewelry Sets</g:google_product_category>
+    </item>
+
+    <!-- Item 15 -->
+    <item>
+      <g:id>luxury-set</g:id>
+      <g:title>Sapphire Luxury Set</g:title>
+      <g:description>Our crown jewel masterpiece suite, featuring royal blue sapphires in intricate golden settings.</g:description>
+      <g:link>https://sapphere.xyz/product/luxury-set</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-15.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>4499 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Jewelry Sets</g:google_product_category>
+    </item>
+
+    <!-- Item 16 -->
+    <item>
+      <g:id>emerald-ring</g:id>
+      <g:title>Emerald Solitaire Ring</g:title>
+      <g:description>A breathtaking solitaire ring showcasing a deep forest green faceted emerald cut gem.</g:description>
+      <g:link>https://sapphere.xyz/product/emerald-ring</g:link>
+      <g:image_link>https://sapphere.xyz/photosjewewllry/jewelry-17.jpg</g:image_link>
+      <g:condition>new</g:condition>
+      <g:availability>in_stock</g:availability>
+      <g:price>1899 INR</g:price>
+      <g:brand>SAPPHERE</g:brand>
+      <g:google_product_category>Apparel &amp; Accessories &gt; Jewelry &gt; Rings</g:google_product_category>
+    </item>
+  </channel>
+</rss>
