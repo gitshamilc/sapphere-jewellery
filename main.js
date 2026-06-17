@@ -459,17 +459,50 @@ class App {
     }
 
     async init() {
-        this.jewelryEngine = new JewelryEngine('webgl-canvas');
-        await this.loadProducts();
-        this.loadCart();
+        try {
+            this.jewelryEngine = new JewelryEngine('webgl-canvas');
+        } catch (err) {
+            console.error("JewelryEngine initialization failed:", err);
+        }
+        
+        try {
+            await this.loadProducts();
+        } catch (err) {
+            console.error("Failed to load products:", err);
+        }
+        
+        try {
+            this.loadCart();
+        } catch (err) {
+            console.error("Failed to load cart:", err);
+        }
 
         this.runCinematicLoader(() => {
-            this.initSmoothScroll();
-            this.initScrollAnimations();
-            this.initCursorGlows();
-            this.initMagneticInteractions();
-            // Initialize scroll-fade animations for .fade-in elements
-            this.initScrollFades();
+            try {
+                this.initSmoothScroll();
+            } catch (err) {
+                console.error("Failed to initialize smooth scroll:", err);
+            }
+            try {
+                this.initScrollAnimations();
+            } catch (err) {
+                console.error("Failed to initialize scroll animations:", err);
+            }
+            try {
+                this.initCursorGlows();
+            } catch (err) {
+                console.error("Failed to initialize cursor glows:", err);
+            }
+            try {
+                this.initMagneticInteractions();
+            } catch (err) {
+                console.error("Failed to initialize magnetic interactions:", err);
+            }
+            try {
+                this.initScrollFades();
+            } catch (err) {
+                console.error("Failed to initialize scroll fades:", err);
+            }
         });
 
         // Supabase Realtime subscription for automatic cross-device updates
@@ -740,87 +773,106 @@ class App {
         // Render sections dynamically
         this.renderFeatured();
         this.renderCatalog();
-        this.generateStructuredData();
+        try {
+            this.generateStructuredData();
+        } catch (schemaErr) {
+            console.error("SEO Schema generation failed:", schemaErr);
+        }
     }
-
+ 
     generateStructuredData() {
-        // Remove existing dynamic schemas if any
-        const existingDynamic = document.querySelectorAll('script.dynamic-schema');
-        existingDynamic.forEach(el => el.remove());
+        try {
+            // Remove existing dynamic schemas if any
+            const existingDynamic = document.querySelectorAll('script.dynamic-schema');
+            existingDynamic.forEach(el => el.remove());
 
-        if (!this.productList || this.productList.length === 0) return;
+            if (!this.productList || this.productList.length === 0) return;
 
-        const schemas = [];
+            const schemas = [];
 
-        // 1. Organization / Store Schema
-        const storeSchema = {
-            "@context": "https://schema.org",
-            "@type": "JewelryStore",
-            "name": "SAPPHERE",
-            "image": "https://sapphere.xyz/photosjewewllry/jewelry-01.jpg",
-            "@id": "https://sapphere.xyz/#store",
-            "url": "https://sapphere.xyz",
-            "telephone": "+918891071849",
-            "priceRange": "INR",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Sapphere Store",
-                "addressLocality": "Kerala",
-                "addressCountry": "IN"
-            },
-            "sameAs": [
-                "https://wa.me/918891071849"
-            ]
-        };
-        schemas.push(storeSchema);
-
-        // 2. Product Schemas
-        this.productList.forEach(p => {
-            let imgUrl = p.img || '';
-            if (imgUrl.startsWith('../')) imgUrl = imgUrl.substring(3);
-            if (!imgUrl.startsWith('http')) {
-                imgUrl = `https://sapphere.xyz/${imgUrl}`;
-            }
-
-            const prodSchema = {
-                "@context": "https://schema.org/",
-                "@type": "Product",
-                "name": p.name,
-                "image": imgUrl,
-                "description": p.description || `${p.name} - premium exquisite handcrafted jewelry.`,
-                "sku": `SAPPHERE-${p.id.toUpperCase()}`,
-                "offers": {
-                    "@type": "Offer",
-                    "url": `https://sapphere.xyz/#store`,
-                    "priceCurrency": "INR",
-                    "price": p.price ? String(p.price) : "0",
-                    "itemCondition": "https://schema.org/NewCondition",
-                    "availability": "https://schema.org/InStock",
-                    "priceValidUntil": "2030-12-31"
-                }
+            // 1. Organization / Store Schema
+            const storeSchema = {
+                "@context": "https://schema.org",
+                "@type": "JewelryStore",
+                "name": "SAPPHERE",
+                "image": "https://sapphere.xyz/photosjewewllry/jewelry-01.jpg",
+                "@id": "https://sapphere.xyz/#store",
+                "url": "https://sapphere.xyz",
+                "telephone": "+918891071849",
+                "priceRange": "INR",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Sapphere Store",
+                    "addressLocality": "Kerala",
+                    "addressCountry": "IN"
+                },
+                "sameAs": [
+                    "https://wa.me/918891071849"
+                ]
             };
+            schemas.push(storeSchema);
 
-            const reviewsCount = parseInt(p.reviews || '0');
-            const ratingVal = parseFloat(p.rating || '5.0');
-            if (reviewsCount > 0) {
-                prodSchema.aggregateRating = {
-                    "@type": "AggregateRating",
-                    "ratingValue": String(ratingVal),
-                    "reviewCount": String(reviewsCount)
-                };
-            }
+            // 2. Product Schemas
+            this.productList.forEach(p => {
+                if (!p) return;
+                try {
+                    let imgUrl = p.img || '';
+                    if (typeof imgUrl === 'string') {
+                        if (imgUrl.startsWith('../')) imgUrl = imgUrl.substring(3);
+                        if (!imgUrl.startsWith('http')) {
+                            imgUrl = `https://sapphere.xyz/${imgUrl}`;
+                        }
+                    }
 
-            schemas.push(prodSchema);
-        });
+                    const prodSchema = {
+                        "@context": "https://schema.org/",
+                        "@type": "Product",
+                        "name": p.name || 'SAPPHERE Jewelry',
+                        "image": imgUrl,
+                        "description": p.description || `${p.name || 'SAPPHERE Jewelry'} - premium exquisite handcrafted jewelry.`,
+                        "sku": `SAPPHERE-${String(p.id || '').toUpperCase()}`,
+                        "offers": {
+                            "@type": "Offer",
+                            "url": `https://sapphere.xyz/#store`,
+                            "priceCurrency": "INR",
+                            "price": p.price ? String(p.price) : "0",
+                            "itemCondition": "https://schema.org/NewCondition",
+                            "availability": "https://schema.org/InStock",
+                            "priceValidUntil": "2030-12-31"
+                        }
+                    };
 
-        // Create script tags and append to head
-        schemas.forEach(schema => {
-            const script = document.createElement('script');
-            script.type = 'application/ld+json';
-            script.className = 'dynamic-schema';
-            script.text = JSON.stringify(schema);
-            document.head.appendChild(script);
-        });
+                    const reviewsCount = parseInt(p.reviews || '0');
+                    const ratingVal = parseFloat(p.rating || '5.0');
+                    if (reviewsCount > 0) {
+                        prodSchema.aggregateRating = {
+                            "@type": "AggregateRating",
+                            "ratingValue": String(ratingVal),
+                            "reviewCount": String(reviewsCount)
+                        };
+                    }
+
+                    schemas.push(prodSchema);
+                } catch (err) {
+                    console.error("Error generating schema for individual product:", err, p);
+                }
+            });
+
+            // Create script tags and append to head
+            schemas.forEach(schema => {
+                try {
+                    const script = document.createElement('script');
+                    script.type = 'application/ld+json';
+                    script.className = 'dynamic-schema';
+                    script.text = JSON.stringify(schema);
+                    document.head.appendChild(script);
+                } catch (err) {
+                    console.error("Failed to append schema tag:", err);
+                }
+            });
+        } catch (globalSchemaErr) {
+            console.error("Global schema generation failed:", globalSchemaErr);
+        }
     }
 
     renderFeatured() {
