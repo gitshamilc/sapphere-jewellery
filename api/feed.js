@@ -103,7 +103,7 @@ function getDefaultProducts() {
     {
       id: "flora-bead",
       name: "Flora Bead Choker",
-      price: 1899,
+      price: 199,
       img: "photosjewewllry/jewelry-01.jpg",
       cat: "necklace",
       description: "A playful, graceful gold chain adorned with hand-strung multi-colored floral bead charms."
@@ -111,7 +111,7 @@ function getDefaultProducts() {
     {
       id: "earring-suite",
       name: "Atelier Earring Suite",
-      price: 2499,
+      price: 299,
       img: "photosjewewllry/jewelry-10.jpg",
       cat: "earrings",
       description: "Curated suite of three distinct gold earrings: floral studs, double heart hoops, and bamboo hoops."
@@ -119,7 +119,7 @@ function getDefaultProducts() {
     {
       id: "aura-heart",
       name: "Aura Heart Pendant",
-      price: 1599,
+      price: 199,
       img: "photosjewewllry/jewelry-05.jpg",
       cat: "necklace",
       description: "A classic minimal gold chain holding a polished solid gold heart pendant on a premium display stand."
@@ -127,7 +127,7 @@ function getDefaultProducts() {
     {
       id: "silken-heart",
       name: "Silken Heart Choker",
-      price: 1699,
+      price: 200,
       img: "photosjewewllry/jewelry-07.jpg",
       cat: "necklace",
       description: "A delicate hollow gold heart pendant layered elegantly over natural liquid-silk champagne drapery."
@@ -143,7 +143,7 @@ function getDefaultProducts() {
     {
       id: "gold-choker",
       name: "Gold Bead Choker",
-      price: 1499,
+      price: 199,
       img: "photosjewewllry/jewelry-02.jpg",
       cat: "necklace",
       description: "Minimalist elegant gold bead choker, perfect for stacking and everyday elegance."
@@ -151,7 +151,7 @@ function getDefaultProducts() {
     {
       id: "pearl-strand",
       name: "Intimate Pearl Strand",
-      price: 2199,
+      price: 199,
       img: "photosjewewllry/jewelry-03.jpg",
       cat: "necklace",
       description: "Elegant genuine pearl strand displaying subtle cream iridescent tones and safe gold locks."
@@ -159,7 +159,7 @@ function getDefaultProducts() {
     {
       id: "floral-studs",
       name: "Floral Stud Earrings",
-      price: 1399,
+      price: 199,
       img: "photosjewewllry/jewelry-06.jpg",
       cat: "earrings",
       description: "Dainty floral stud earrings designed to frame the face with light-catching golden petals."
@@ -167,7 +167,7 @@ function getDefaultProducts() {
     {
       id: "gold-bracelet",
       name: "Velvet Gold Bracelet",
-      price: 1599,
+      price: 1299,
       img: "photosjewewllry/jewelry-09.jpg",
       cat: "bracelet",
       description: "Sleek and polished gold bracelet designed with smooth link loops and custom security sweeps."
@@ -175,7 +175,7 @@ function getDefaultProducts() {
     {
       id: "gold-ring",
       name: "Rose Gold Statement Ring",
-      price: 1199,
+      price: 199,
       img: "photosjewewllry/jewelry-13.jpg",
       cat: "ring",
       description: "Bold rose gold band ring, hand-polished to capture modern architectural sophistication."
@@ -183,7 +183,7 @@ function getDefaultProducts() {
     {
       id: "crystal-drops",
       name: "Crystal Drop Earrings",
-      price: 1699,
+      price: 999,
       img: "photosjewewllry/jewelry-11.jpg",
       cat: "earrings",
       description: "Dazzling crystal drop earrings that cascade gracefully to add royalty and glamour."
@@ -191,7 +191,7 @@ function getDefaultProducts() {
     {
       id: "combo-set",
       name: "Bridal Combo Set",
-      price: 3899,
+      price: 3499,
       img: "photosjewewllry/jewelry-12.jpg",
       cat: "set",
       description: "A rich jewelry suite containing matching royal layered choker and drop studs."
@@ -199,7 +199,7 @@ function getDefaultProducts() {
     {
       id: "tennis-bracelet",
       name: "Diamond Tennis Bracelet",
-      price: 1999,
+      price: 320,
       img: "photosjewewllry/jewelry-16.jpg",
       cat: "bracelet",
       description: "Classic high-end tennis bracelet hand-set with highly brilliant sparkling faceted simulated diamonds."
@@ -207,7 +207,7 @@ function getDefaultProducts() {
     {
       id: "festive-set",
       name: "Festive Gold Set",
-      price: 3599,
+      price: 2999,
       img: "photosjewewllry/jewelry-14.jpg",
       cat: "set",
       description: "Elegant traditional gold-sweep matching choker and bangle set designed for celebrations."

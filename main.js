@@ -566,7 +566,7 @@ class App {
                 {
                     id: "flora-bead",
                     name: "Flora Bead Choker",
-                    price: 1899,
+                    price: 199,
                     originalPrice: 2099,
                     img: "photosjewewllry/jewelry-01.jpg",
                     cat: "necklace",
@@ -579,7 +579,7 @@ class App {
                 {
                     id: "earring-suite",
                     name: "Atelier Earring Suite",
-                    price: 2499,
+                    price: 299,
                     originalPrice: 2999,
                     img: "photosjewewllry/jewelry-10.jpg",
                     cat: "earring",
@@ -592,7 +592,7 @@ class App {
                 {
                     id: "aura-heart",
                     name: "Aura Heart Pendant",
-                    price: 1599,
+                    price: 199,
                     originalPrice: 1899,
                     img: "photosjewewllry/jewelry-05.jpg",
                     cat: "necklace",
@@ -605,7 +605,7 @@ class App {
                 {
                     id: "silken-heart",
                     name: "Silken Heart Choker",
-                    price: 1699,
+                    price: 200,
                     originalPrice: 1999,
                     img: "photosjewewllry/jewelry-07.jpg",
                     cat: "necklace",
@@ -631,7 +631,7 @@ class App {
                 {
                     id: "gold-choker",
                     name: "Gold Bead Choker",
-                    price: 1499,
+                    price: 199,
                     originalPrice: 1799,
                     img: "photosjewewllry/jewelry-02.jpg",
                     cat: "necklace",
@@ -644,7 +644,7 @@ class App {
                 {
                     id: "pearl-strand",
                     name: "Intimate Pearl Strand",
-                    price: 2199,
+                    price: 199,
                     originalPrice: 2499,
                     img: "photosjewewllry/jewelry-03.jpg",
                     cat: "necklace",
@@ -657,7 +657,7 @@ class App {
                 {
                     id: "floral-studs",
                     name: "Floral Stud Earrings",
-                    price: 899,
+                    price: 199,
                     originalPrice: 1059,
                     img: "photosjewewllry/jewelry-06.jpg",
                     cat: "earring",
@@ -683,7 +683,7 @@ class App {
                 {
                     id: "gold-ring",
                     name: "Rose Gold Statement Ring",
-                    price: 1199,
+                    price: 199,
                     originalPrice: 1399,
                     img: "photosjewewllry/jewelry-13.jpg",
                     cat: "ring",
@@ -722,7 +722,7 @@ class App {
                 {
                     id: "tennis-bracelet",
                     name: "Diamond Tennis Bracelet",
-                    price: 2799,
+                    price: 320,
                     originalPrice: 3299,
                     img: "photosjewewllry/jewelry-16.jpg",
                     cat: "bracelet",
