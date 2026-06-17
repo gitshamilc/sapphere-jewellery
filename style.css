@@ -234,8 +234,6 @@ body::before {
     color: var(--gold);
     margin-bottom: 1.2rem;
     font-weight: 400;
-    opacity: 0;
-    transform: translateY(20px);
 }
 
 .loader-title {
@@ -244,8 +242,6 @@ body::before {
     margin-bottom: 1.8rem;
     letter-spacing: 0.4em;
     padding-left: 0.4em;
-    opacity: 0;
-    transform: translateY(20px);
 }
 
 .loader-bar-container {
@@ -255,7 +251,6 @@ body::before {
     margin-bottom: 1rem;
     position: relative;
     overflow: hidden;
-    opacity: 0;
 }
 
 .loader-bar {
@@ -269,7 +264,7 @@ body::before {
     font-size: 0.7rem;
     letter-spacing: 0.1em;
     color: var(--text-secondary);
-    opacity: 0;
+    opacity: 0.7;
 }
 
 /* Premium Navigation Header */

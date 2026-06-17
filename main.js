@@ -454,29 +454,13 @@ class App {
 
         this.cart = [];
         this.currentProductId = null;
-
         this.init();
     }
 
     async init() {
-        try {
-            this.jewelryEngine = new JewelryEngine('webgl-canvas');
-        } catch (err) {
-            console.error("JewelryEngine initialization failed:", err);
-        }
-        
-        try {
-            await this.loadProducts();
-        } catch (err) {
-            console.error("Failed to load products:", err);
-        }
-        
-        try {
-            this.loadCart();
-        } catch (err) {
-            console.error("Failed to load cart:", err);
-        }
+        this.resourcesLoaded = false;
 
+        // Start preloader immediately to prevent starting blank pages
         this.runCinematicLoader(() => {
             try {
                 this.initSmoothScroll();
@@ -511,6 +495,28 @@ class App {
                 console.error("Failed to check routing:", err);
             }
         });
+
+        // Run loading processes concurrently
+        try {
+            this.jewelryEngine = new JewelryEngine('webgl-canvas');
+        } catch (err) {
+            console.error("JewelryEngine initialization failed:", err);
+        }
+        
+        try {
+            await this.loadProducts();
+        } catch (err) {
+            console.error("Failed to load products:", err);
+        }
+        
+        try {
+            this.loadCart();
+        } catch (err) {
+            console.error("Failed to load cart:", err);
+        }
+
+        // Signal that background resources are fully loaded and the loader can exit
+        this.resourcesLoaded = true;
 
         // Supabase Realtime subscription for automatic cross-device updates
         const isSupabaseConfigured = typeof window.CONFIG !== 'undefined' && 
@@ -1033,15 +1039,52 @@ class App {
 
             const tl = gsap.timeline();
             
-            tl.to(tagline, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' })
-              .to(title, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', letterSpacing: '0.5em' }, '-=0.3')
-              .to(barContainer, { opacity: 1, duration: 0.4 }, '-=0.4')
-              .to(loaderPercent, { opacity: 0.7, duration: 0.4 }, '-=0.4');
+            // Animate FROM hidden states to stylesheet default states
+            tl.from(tagline, { opacity: 0, y: 20, duration: 0.5, ease: 'power2.out' })
+              .from(title, { opacity: 0, y: 20, duration: 0.6, ease: 'power3.out', letterSpacing: '0.1em' }, '-=0.3')
+              .from(barContainer, { opacity: 0, duration: 0.4 }, '-=0.4')
+              .from(loaderPercent, { opacity: 0, duration: 0.4 }, '-=0.4');
 
             const progressObj = { value: 0 };
+            
+            // Function to complete the loading count-up to 100% and exit
+            const completeLoader = () => {
+                gsap.to(progressObj, {
+                    value: 100,
+                    duration: 0.3,
+                    ease: 'power1.out',
+                    onUpdate: () => {
+                        const percent = Math.floor(progressObj.value);
+                        if (loaderBar) loaderBar.style.width = `${percent}%`;
+                        if (loaderPercent) loaderPercent.textContent = `${percent}%`;
+                    },
+                    onComplete: () => {
+                        clearTimeout(safetyUnlock);
+                        const exitTl = gsap.timeline({
+                            onComplete: () => {
+                                loader.style.display = 'none';
+                                document.body.style.overflow = '';
+                                document.body.style.height = '';
+                                onCompleteCallback();
+                            }
+                        });
+
+                        const loaderBg = document.querySelector('.loader-bg');
+                        exitTl.to(loaderPercent, { opacity: 0, duration: 0.15 })
+                              .to([tagline, title, barContainer], { y: -50, opacity: 0, stagger: 0.05, duration: 0.3, ease: 'power2.in' })
+                              .to(loaderBg, { 
+                                  transform: 'translateY(-100%)', 
+                                  duration: 0.6, 
+                                  ease: 'power4.inOut' 
+                              }, '-=0.1');
+                    }
+                });
+            };
+
+            // Animate to 90% first, then wait for resources to finish loading
             gsap.to(progressObj, {
-                value: 100,
-                duration: 0.8,
+                value: 90,
+                duration: 0.6,
                 ease: 'power2.out',
                 onUpdate: () => {
                     const percent = Math.floor(progressObj.value);
@@ -1049,24 +1092,12 @@ class App {
                     if (loaderPercent) loaderPercent.textContent = `${percent}%`;
                 },
                 onComplete: () => {
-                    clearTimeout(safetyUnlock);
-                    const exitTl = gsap.timeline({
-                        onComplete: () => {
-                            loader.style.display = 'none';
-                            document.body.style.overflow = '';
-                            document.body.style.height = '';
-                            onCompleteCallback();
+                    const checkInterval = setInterval(() => {
+                        if (this.resourcesLoaded) {
+                            clearInterval(checkInterval);
+                            completeLoader();
                         }
-                    });
-
-                    const loaderBg = document.querySelector('.loader-bg');
-                    exitTl.to(loaderPercent, { opacity: 0, duration: 0.15 })
-                          .to([tagline, title, barContainer], { y: -50, opacity: 0, stagger: 0.05, duration: 0.3, ease: 'power2.in' })
-                          .to(loaderBg, { 
-                              transform: 'translateY(-100%)', 
-                              duration: 0.6, 
-                              ease: 'power4.inOut' 
-                          }, '-=0.1');
+                    }, 30);
                 }
             });
         } catch(e) {
