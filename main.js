@@ -1041,8 +1041,8 @@ class App {
             const progressObj = { value: 0 };
             gsap.to(progressObj, {
                 value: 100,
-                duration: 0.4,
-                ease: 'power1.inOut',
+                duration: 0.8,
+                ease: 'power2.out',
                 onUpdate: () => {
                     const percent = Math.floor(progressObj.value);
                     if (loaderBar) loaderBar.style.width = `${percent}%`;
