@@ -740,6 +740,87 @@ class App {
         // Render sections dynamically
         this.renderFeatured();
         this.renderCatalog();
+        this.generateStructuredData();
+    }
+
+    generateStructuredData() {
+        // Remove existing dynamic schemas if any
+        const existingDynamic = document.querySelectorAll('script.dynamic-schema');
+        existingDynamic.forEach(el => el.remove());
+
+        if (!this.productList || this.productList.length === 0) return;
+
+        const schemas = [];
+
+        // 1. Organization / Store Schema
+        const storeSchema = {
+            "@context": "https://schema.org",
+            "@type": "JewelryStore",
+            "name": "SAPPHERE",
+            "image": "https://sapphere.xyz/photosjewewllry/jewelry-01.jpg",
+            "@id": "https://sapphere.xyz/#store",
+            "url": "https://sapphere.xyz",
+            "telephone": "+918891071849",
+            "priceRange": "INR",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Sapphere Store",
+                "addressLocality": "Kerala",
+                "addressCountry": "IN"
+            },
+            "sameAs": [
+                "https://wa.me/918891071849"
+            ]
+        };
+        schemas.push(storeSchema);
+
+        // 2. Product Schemas
+        this.productList.forEach(p => {
+            let imgUrl = p.img || '';
+            if (imgUrl.startsWith('../')) imgUrl = imgUrl.substring(3);
+            if (!imgUrl.startsWith('http')) {
+                imgUrl = `https://sapphere.xyz/${imgUrl}`;
+            }
+
+            const prodSchema = {
+                "@context": "https://schema.org/",
+                "@type": "Product",
+                "name": p.name,
+                "image": imgUrl,
+                "description": p.description || `${p.name} - premium exquisite handcrafted jewelry.`,
+                "sku": `SAPPHERE-${p.id.toUpperCase()}`,
+                "offers": {
+                    "@type": "Offer",
+                    "url": `https://sapphere.xyz/#store`,
+                    "priceCurrency": "INR",
+                    "price": p.price ? String(p.price) : "0",
+                    "itemCondition": "https://schema.org/NewCondition",
+                    "availability": "https://schema.org/InStock",
+                    "priceValidUntil": "2030-12-31"
+                }
+            };
+
+            const reviewsCount = parseInt(p.reviews || '0');
+            const ratingVal = parseFloat(p.rating || '5.0');
+            if (reviewsCount > 0) {
+                prodSchema.aggregateRating = {
+                    "@type": "AggregateRating",
+                    "ratingValue": String(ratingVal),
+                    "reviewCount": String(reviewsCount)
+                };
+            }
+
+            schemas.push(prodSchema);
+        });
+
+        // Create script tags and append to head
+        schemas.forEach(schema => {
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.className = 'dynamic-schema';
+            script.text = JSON.stringify(schema);
+            document.head.appendChild(script);
+        });
     }
 
     renderFeatured() {
