@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/product/:id", "destination": "/index.html" }
+    { "source": "/product/:path*", "destination": "/index.html" }
   ],
   "headers": [
     {
